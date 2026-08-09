@@ -38,6 +38,10 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 .updated{margin:8px 2px 0;color:#98a2b3;font-size:12px}
 .info{margin-top:34px;background:white;border:1px solid var(--line);border-radius:16px;padding:18px}.info h3{margin:0 0 8px;font-size:15px}.info p{margin:7px 0;color:#667085;font-size:12px;line-height:1.55}
 
+.loading{padding:55px 10px;text-align:center;color:var(--muted)}
+.errorbox{margin:18px 0;background:#fff7ed;border:1px solid #fed7aa;border-radius:14px;padding:16px;color:#9a3412;font-size:13px;line-height:1.5}
+.status-prelozeno{background:#fff7ed!important;color:#9a3412!important}.status-odpovedano{background:#fef2f2!important;color:#b91c1c!important}.result{font-weight:900;font-size:17px;color:#111827}
+.note-line{margin-top:5px;font-size:12px;color:#667085;font-style:italic}
 @media(max-width:720px){.toolbar{grid-template-columns:1fr;position:static}.card{grid-template-columns:58px 1fr}.badges{grid-column:2;justify-content:flex-start}.time{font-size:16px}.teams{font-size:15px}}
 </style>
 </head>
@@ -59,7 +63,7 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 <select id="mnz"><option value="">Vse MNZ</option></select>
 <select id="round"><option value="">Vsi krogi</option></select>
 </div>
-<div id="summary" class="summary"></div><div class="updated">Podatki posodobljeni: 9. avgust 2026</div>
+<div id="summary" class="summary"></div><div id="updated" class="updated">Nalagam podatke iz Google Sheets …</div>
 <div id="list"></div>
 </main>
 
@@ -95,15 +99,16 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
   </div>
 </div>
 
-<footer>Termini se lahko spremenijo. Pred obiskom tekme preveri uradni vir posamezne MNZ.</footer>
+<footer>Podatki se nalagajo iz uredniške Google preglednice. Termini se lahko spremenijo; pred obiskom preveri uradne objave posamezne MNZ.</footer>
 <script>
-const matches = [{"mnz": "MNZ Ljubljana", "krog": "Predkrog", "datum": "2026-08-12", "ura": "17:30", "domacin": "AIK Kresnice", "gost": "Krka", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ljubljana", "krog": "Predkrog", "datum": "2026-08-12", "ura": "17:30", "domacin": "Arne Tabor 69", "gost": "Svoboda Ljubljana", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ljubljana", "krog": "Predkrog", "datum": "2026-08-12", "ura": "17:30", "domacin": "Ihan", "gost": "Infostyle Šmartno", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ljubljana", "krog": "Predkrog", "datum": "2026-08-12", "ura": "17:30", "domacin": "Kamnik", "gost": "Zagorje", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ljubljana", "krog": "Predkrog", "datum": "2026-08-12", "ura": "17:30", "domacin": "Kolpa", "gost": "Rudar Trbovlje", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ljubljana", "krog": "Predkrog", "datum": "2026-08-12", "ura": "17:30", "domacin": "Kočevje", "gost": "Bela Krajina", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ljubljana", "krog": "Predkrog", "datum": "2026-08-12", "ura": "17:30", "domacin": "Svoboda Kisovec", "gost": "Ilirija 1911", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ljubljana", "krog": "Predkrog", "datum": "2026-08-12", "ura": "17:30", "domacin": "Termit Moravče", "gost": "IB 1975 Ljubljana", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ljubljana", "krog": "Predkrog", "datum": "2026-08-12", "ura": "17:30", "domacin": "Ugar Ribnica", "gost": "Litija", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ljubljana", "krog": "Predkrog", "datum": "2026-08-12", "ura": "17:30", "domacin": "Vir", "gost": "Ivančna Gorica", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ljubljana", "krog": "Predkrog", "datum": "2026-08-12", "ura": "17:30", "domacin": "Črnuče", "gost": "Roltek Dob", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Murska Sobota", "krog": "Predkrog", "datum": "2026-08-15", "ura": "17:30", "domacin": "Radenska Slatina", "gost": "Kema Puconci Murexin", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Murska Sobota", "krog": "Predkrog", "datum": "2026-08-16", "ura": "10:30", "domacin": "Lipa", "gost": "Tišina", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Murska Sobota", "krog": "Predkrog", "datum": "2026-08-16", "ura": "17:30", "domacin": "Apače", "gost": "Cankova", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Murska Sobota", "krog": "Predkrog", "datum": "2026-08-16", "ura": "17:30", "domacin": "Bogojina", "gost": "Rakičan", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Murska Sobota", "krog": "Predkrog", "datum": "2026-08-16", "ura": "17:30", "domacin": "Cven", "gost": "Roma", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Murska Sobota", "krog": "Predkrog", "datum": "2026-08-16", "ura": "17:30", "domacin": "Grad", "gost": "Pušča", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Murska Sobota", "krog": "Predkrog", "datum": "2026-08-16", "ura": "17:30", "domacin": "Hodoš", "gost": "Tromejnik Montpreis", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Murska Sobota", "krog": "Predkrog", "datum": "2026-08-16", "ura": "17:30", "domacin": "Križevci", "gost": "Bakovci", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Murska Sobota", "krog": "Predkrog", "datum": "2026-08-16", "ura": "17:30", "domacin": "Serdica Kl. Šinko", "gost": "Aluvar Gančani", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Lendava", "krog": "Predkrog", "datum": "2026-08-16", "ura": "", "domacin": "Kobilje", "gost": "Črenšovci", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Lendava", "krog": "Predkrog", "datum": "2026-08-16", "ura": "", "domacin": "Nafta Veterani", "gost": "Olimpija Dolga vas", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Lendava", "krog": "Predkrog", "datum": "2026-08-16", "ura": "", "domacin": "Čentiba", "gost": "Nedelica", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ptuj", "krog": "Predkrog", "datum": "2026-08-18", "ura": "17:30", "domacin": "Cirkulane", "gost": "Pragersko", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ptuj", "krog": "Predkrog", "datum": "2026-08-18", "ura": "17:30", "domacin": "Drava Intera", "gost": "Zavrč", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ptuj", "krog": "Predkrog", "datum": "2026-08-18", "ura": "17:30", "domacin": "Leskovec", "gost": "Makole Bar Miha", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ptuj", "krog": "Predkrog", "datum": "2026-08-18", "ura": "17:30", "domacin": "Podlehnik", "gost": "Grajena ANPro", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ptuj", "krog": "Predkrog", "datum": "2026-08-18", "ura": "17:30", "domacin": "Skorba", "gost": "ŠD Gorišnica", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ptuj", "krog": "Predkrog", "datum": "2026-08-18", "ura": "17:30", "domacin": "Slovenja vas", "gost": "Dornava Digitalpartner.si", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ptuj", "krog": "Predkrog", "datum": "2026-08-18", "ura": "17:30", "domacin": "Spodnja Polskava", "gost": "Bukovci", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ptuj", "krog": "Predkrog", "datum": "2026-08-18", "ura": "17:30", "domacin": "Tržec", "gost": "ŠD Rogoznica", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ptuj", "krog": "Predkrog", "datum": "2026-08-18", "ura": "17:30", "domacin": "Zgornja Polskava", "gost": "NK BOČ Poljčane", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ptuj", "krog": "Predkrog", "datum": "2026-08-18", "ura": "17:30", "domacin": "ŠD Hajdoše", "gost": "ŠD Gerečja vas", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Celje", "krog": "Predkrog", "datum": "2026-08-18", "ura": "", "domacin": "ND Polzela - Združena Savinjska", "gost": "Šampion", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Celje", "krog": "Predkrog", "datum": "2026-08-18", "ura": "", "domacin": "NK Laško", "gost": "Krško Posavje", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Celje", "krog": "Predkrog", "datum": "2026-08-18", "ura": "", "domacin": "NK Ljubno ob Savinji", "gost": "Šmartno 1928", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Gorenjske Kranj", "krog": "Predkrog", "datum": "2026-08-18", "ura": "", "domacin": "Jesenice", "gost": "Triglav Kranj", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Celje", "krog": "Predkrog", "datum": "2026-08-19", "ura": "", "domacin": "ND Mozirje - Združena Savinjska", "gost": "Rudar Velenje", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Celje", "krog": "Predkrog", "datum": "2026-08-19", "ura": "", "domacin": "NK Šoštanj", "gost": "Mons Claudius", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Celje", "krog": "Predkrog", "datum": "2026-08-19", "ura": "", "domacin": "NK Žalec-Šentjur", "gost": "Unior Zreče", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Gorenjske Kranj", "krog": "Predkrog", "datum": "2026-08-19", "ura": "", "domacin": "Bitnje", "gost": "Šenčur", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Gorenjske Kranj", "krog": "Predkrog", "datum": "2026-08-19", "ura": "", "domacin": "Lesce", "gost": "Zarica Kranj", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Gorenjske Kranj", "krog": "Predkrog", "datum": "2026-08-19", "ura": "", "domacin": "Žiri", "gost": "Škofja Loka", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Maribor", "krog": "Predkrog", "datum": "2026-08-22", "ura": "17:30", "domacin": "Dravograd", "gost": "Peca", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Maribor", "krog": "Predkrog", "datum": "2026-08-22", "ura": "17:30", "domacin": "Jakob", "gost": "Marles", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Maribor", "krog": "Predkrog", "datum": "2026-08-22", "ura": "17:30", "domacin": "Kungota", "gost": "Roho", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Maribor", "krog": "Predkrog", "datum": "2026-08-22", "ura": "17:30", "domacin": "Malečnik Asfalterstvo Brus", "gost": "Miklavž AT 24", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Maribor", "krog": "Predkrog", "datum": "2026-08-22", "ura": "17:30", "domacin": "Marjeta", "gost": "Tehnotim Pesnica", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Maribor", "krog": "Predkrog", "datum": "2026-08-22", "ura": "17:30", "domacin": "Paloma", "gost": "Maripol Starše", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Maribor", "krog": "Predkrog", "datum": "2026-08-22", "ura": "17:30", "domacin": "Pobrežje", "gost": "Radlje", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Maribor", "krog": "Predkrog", "datum": "2026-08-22", "ura": "17:30", "domacin": "Pohorje", "gost": "Jurovski Dol", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Gorenjske Kranj", "krog": "Predkrog", "datum": "2026-08-22", "ura": "", "domacin": "Britof", "gost": "Velesovo - Cerklje", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Gorenjske Kranj", "krog": "1. krog", "datum": "2026-08-22", "ura": "", "domacin": "Eltron Preddvor", "gost": "Kranjska Gora", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Gorenjske Kranj", "krog": "Predkrog", "datum": "2026-08-22", "ura": "", "domacin": "Jezero Medvode", "gost": "Sava Kranj", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Gorenjske Kranj", "krog": "Predkrog", "datum": "2026-08-22", "ura": "", "domacin": "Niko Železniki", "gost": "Visoko", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ljubljana", "krog": "1. krog", "datum": "2026-08-26", "ura": "17:00", "domacin": "Arne Tabor 69/Svoboda Ljubljana", "gost": "Trebnje", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ljubljana", "krog": "1. krog", "datum": "2026-08-26", "ura": "17:00", "domacin": "Dragomer", "gost": "Brinje Grosuplje", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ljubljana", "krog": "1. krog", "datum": "2026-08-26", "ura": "17:00", "domacin": "Ihan/Infostyle Šmartno", "gost": "Kalcer Radomlje", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ljubljana", "krog": "1. krog", "datum": "2026-08-26", "ura": "17:00", "domacin": "Kamnik/Zagorje", "gost": "AIK Kresnice/Krka", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ljubljana", "krog": "1. krog", "datum": "2026-08-26", "ura": "17:00", "domacin": "Kolpa/Rudar Trbovlje", "gost": "Olimpija Ljubljana", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ljubljana", "krog": "1. krog", "datum": "2026-08-26", "ura": "17:00", "domacin": "Komenda", "gost": "Kočevje/Bela Krajina", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ljubljana", "krog": "1. krog", "datum": "2026-08-26", "ura": "17:00", "domacin": "Ljubljana", "gost": "Jevnica", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ljubljana", "krog": "1. krog", "datum": "2026-08-26", "ura": "17:00", "domacin": "Slovan", "gost": "Vir/Ivančna Gorica", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ljubljana", "krog": "1. krog", "datum": "2026-08-26", "ura": "17:00", "domacin": "Svoboda Kisovec/Ilirija 1911", "gost": "Vrhnika", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ljubljana", "krog": "1. krog", "datum": "2026-08-26", "ura": "17:00", "domacin": "Termit Moravče/IB 1975 Ljubljana", "gost": "Ugar Ribnica/Litija", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Ljubljana", "krog": "1. krog", "datum": "2026-08-26", "ura": "17:00", "domacin": "Šentjernej", "gost": "Črnuče/Roltek Dob", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Lendava", "krog": "1. krog", "datum": "2026-08-26", "ura": "", "domacin": "Dobrovnik", "gost": "Hotiza", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Lendava", "krog": "1. krog", "datum": "2026-08-26", "ura": "", "domacin": "Graničar", "gost": "Čentiba/Nedelica", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Lendava", "krog": "1. krog", "datum": "2026-08-26", "ura": "", "domacin": "Kobilje/Črenšovci", "gost": "Nafta 1903", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Lendava", "krog": "1. krog", "datum": "2026-08-26", "ura": "", "domacin": "Malibu Panonija GA-KA", "gost": "Bistrica", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Lendava", "krog": "1. krog", "datum": "2026-08-26", "ura": "", "domacin": "Polana", "gost": "Odranci", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Lendava", "krog": "1. krog", "datum": "2026-08-26", "ura": "", "domacin": "Turnišče", "gost": "Nafta Veterani/Olimpija Dolga vas", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Maribor", "krog": "1. krog", "datum": "2026-09-02", "ura": "17:00", "domacin": "Dravograd/Peca", "gost": "Marjeta/Tehnotim Pesnica", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Maribor", "krog": "1. krog", "datum": "2026-09-02", "ura": "17:00", "domacin": "Jakob/Marles", "gost": "Lenart Danküchen center", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Maribor", "krog": "1. krog", "datum": "2026-09-02", "ura": "17:00", "domacin": "Malečnik Asfalterstvo Brus/Miklavž AT 24", "gost": "Kungota/Roho", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Maribor", "krog": "1. krog", "datum": "2026-09-02", "ura": "17:00", "domacin": "Novogradnje MB Tabor", "gost": "Rače", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Maribor", "krog": "1. krog", "datum": "2026-09-02", "ura": "17:00", "domacin": "Paloma/Maripol Starše", "gost": "Fužinar Ravne", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Maribor", "krog": "1. krog", "datum": "2026-09-02", "ura": "17:00", "domacin": "Pobrežje/Radlje", "gost": "Korotan Prevalje", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Maribor", "krog": "1. krog", "datum": "2026-09-02", "ura": "17:00", "domacin": "Pohorje/Jurovski dol", "gost": "Premium Dobrovce", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Maribor", "krog": "1. krog", "datum": "2026-09-02", "ura": "17:00", "domacin": "Slovenj Gradec", "gost": "Maribor", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Lendava", "krog": "2. krog", "datum": "2026-09-09", "ura": "", "domacin": "Dobrovnik/Hotiza", "gost": "Turnišče/Nafta Veterani/Olimpija Dolga vas", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Lendava", "krog": "2. krog", "datum": "2026-09-09", "ura": "", "domacin": "Graničar/Čentiba/Nedelica", "gost": "Kobilje/Črenšovci/Nafta 1903", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Lendava", "krog": "2. krog", "datum": "2026-09-09", "ura": "", "domacin": "Polana/Odranci", "gost": "Malibu Panonija GA-KA/Bistrica", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Maribor", "krog": "2. krog", "datum": "2026-09-16", "ura": "16:30", "domacin": "Dravograd/Peca/Marjeta/Tehnotim Pesnica", "gost": "Pohorje/Jurovski Dol/Premium Dobrovce", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Maribor", "krog": "2. krog", "datum": "2026-09-16", "ura": "16:30", "domacin": "Jakob/Marles/Lenart Danküchen center", "gost": "Novogradnje MB Tabor/Rače", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Maribor", "krog": "2. krog", "datum": "2026-09-16", "ura": "16:30", "domacin": "Malečnik Asfalterstvo Brus/Miklavž AT 24/Kungota/Roho", "gost": "Paloma/Maripol Starše/Fužinar Ravne", "rezultat": "", "status": "Napovedano"}, {"mnz": "MNZ Maribor", "krog": "2. krog", "datum": "2026-09-16", "ura": "16:30", "domacin": "Pobrežje/Radlje/Korotan Prevalje", "gost": "Slovenj Gradec/Maribor", "rezultat": "", "status": "Napovedano"}];
+let matches = [];
+const DATA_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSUgn6ELDWyUJDdxwS5qPqa1gsvzmYohPsPEVR_YI7CtbC5RpdRNO6VzGs2dreY4-B2Q4qDGVjOrqgq/pub?gid=0&single=true&output=csv";
 const monthNames=["januar","februar","marec","april","maj","junij","julij","avgust","september","oktober","november","december"];
 const days=["nedelja","ponedeljek","torek","sreda","četrtek","petek","sobota"];
 const q=document.querySelector("#q"), mnz=document.querySelector("#mnz"), round=document.querySelector("#round"), list=document.querySelector("#list"), summary=document.querySelector("#summary"), todaybox=document.querySelector("#todaybox");
-let currentView="next"; const siteToday="2026-08-09";
-[...new Set(matches.map(x=>x.mnz))].sort().forEach(v=>mnz.add(new Option(v,v)));
-[...new Set(matches.map(x=>x.krog))].sort().forEach(v=>round.add(new Option(v,v)));
+let currentView="next";
+function localISODate(){const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
+const siteToday=localISODate();
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function prettyDate(ds){let d=new Date(ds+"T12:00:00"); return `${d.getDate()}. ${monthNames[d.getMonth()]} ${d.getFullYear()}`}
 function render(){
@@ -120,9 +125,9 @@ function render(){
    const d=new Date(date+"T12:00:00");
    return `<section class="day"><div class="day-title"><h2>${prettyDate(date)}</h2><span>${days[d.getDay()]}</span></div>`+
    arr.map(x=>`<article class="card">
-     <div class="time">${x.ura?esc(x.ura):'<span class="tbd">NEZNANA URA</span>'}</div>
-     <div><div class="teams">${esc(x.domacin)} <span class="dash">–</span> ${esc(x.gost)}</div><div class="meta"><button class="mnzlink" data-mnzfilter="${esc(x.mnz)}">${esc(x.mnz)}</button></div><button class="report" data-match="${esc(x.domacin)} – ${esc(x.gost)}" data-date="${esc(x.datum)}" data-time="${esc(x.ura)}" data-mnz="${esc(x.mnz)}">✎ Sporoči podatek</button></div>
-     <div class="badges"><span class="badge round">${esc(x.krog)}</span></div>
+     <div class="time">${x.rezultat?`<span class="result">${esc(x.rezultat)}</span>`:(x.ura?esc(x.ura):'<span class="tbd">NEZNANA URA</span>')}</div>
+     <div><div class="teams">${esc(x.domacin)} <span class="dash">–</span> ${esc(x.gost)}</div><div class="meta"><button class="mnzlink" data-mnzfilter="${esc(x.mnz)}">${esc(x.mnz)}</button></div>${x.opomba?`<div class="note-line">${esc(x.opomba)}</div>`:""}<button class="report" data-match="${esc(x.domacin)} – ${esc(x.gost)}" data-date="${esc(x.datum)}" data-time="${esc(x.ura)}" data-mnz="${esc(x.mnz)}">✎ Sporoči podatek</button></div>
+     <div class="badges"><span class="badge round">${esc(x.krog)}</span>${x.status && x.status.toLowerCase()!=="napovedano"?`<span class="badge status-${esc(x.status.toLowerCase())}">${esc(x.status)}</span>`:""}</div>
    </article>`).join("")+`</section>`;
  }).join("");
 }
@@ -135,7 +140,71 @@ document.addEventListener("click",e=>{
  document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.dataset.view==="all")); render();
  window.scrollTo({top:0,behavior:"smooth"});
 });
-[q,mnz,round].forEach(el=>el.addEventListener("input",render)); render();
+[q,mnz,round].forEach(el=>el.addEventListener("input",render));
+
+function parseCSV(text){
+ const rows=[]; let row=[], cell="", quoted=false;
+ for(let i=0;i<text.length;i++){
+  const c=text[i], n=text[i+1];
+  if(c=='"' && quoted && n=='"'){cell+='"';i++}
+  else if(c=='"'){quoted=!quoted}
+  else if(c==',' && !quoted){row.push(cell);cell=""}
+  else if((c=='\n'||c=='\r') && !quoted){
+   if(c=='\r'&&n=='\n')i++;
+   row.push(cell); if(row.some(v=>v.trim()!==""))rows.push(row); row=[]; cell="";
+  } else cell+=c;
+ }
+ if(cell.length||row.length){row.push(cell);rows.push(row)}
+ return rows;
+}
+function normDate(v){
+ v=(v||"").trim(); if(!v)return "";
+ let m=v.match(/^(\d{1,2})[.\/-]\s*(\d{1,2})[.\/-]\s*(\d{4})/);
+ if(m)return `${m[3]}-${m[2].padStart(2,"0")}-${m[1].padStart(2,"0")}`;
+ let d=new Date(v); if(!isNaN(d))return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+ return v;
+}
+function normTime(v){
+ v=(v||"").trim(); if(!v)return "";
+ let m=v.match(/(\d{1,2})[:.]([0-5]\d)/); return m?`${m[1].padStart(2,"0")}:${m[2]}`:v;
+}
+function refillFilters(){
+ const keepM=mnz.value, keepR=round.value;
+ mnz.innerHTML='<option value="">Vse MNZ</option>'; round.innerHTML='<option value="">Vsi krogi</option>';
+ [...new Set(matches.map(x=>x.mnz).filter(Boolean))].sort().forEach(v=>mnz.add(new Option(v,v)));
+ [...new Set(matches.map(x=>x.krog).filter(Boolean))].sort().forEach(v=>round.add(new Option(v,v)));
+ if([...mnz.options].some(o=>o.value===keepM))mnz.value=keepM;
+ if([...round.options].some(o=>o.value===keepR))round.value=keepR;
+}
+async function loadData(){
+ list.innerHTML='<div class="loading">Nalagam tekme …</div>';
+ try{
+  const res=await fetch(DATA_URL+"&t="+Date.now(),{cache:"no-store"});
+  if(!res.ok)throw new Error("HTTP "+res.status);
+  const grid=parseCSV(await res.text());
+  if(grid.length<2)throw new Error("Tabela nima podatkov");
+  const headers=grid[0].map(x=>x.trim().toLowerCase());
+  const idx=(...names)=>{for(const n of names){const i=headers.indexOf(n);if(i>=0)return i}return -1};
+  const I={mnz:idx("mnz"),krog:idx("krog"),datum:idx("datum"),ura:idx("ura"),domacin:idx("domačin","domacin"),gost:idx("gost"),rezultat:idx("rezultat"),status:idx("status"),opomba:idx("opomba")};
+  if(I.mnz<0||I.datum<0||I.domacin<0||I.gost<0)throw new Error("Manjkajo obvezni stolpci");
+  matches=grid.slice(1).map(r=>({
+   mnz:(r[I.mnz]||"").trim(), krog:I.krog>=0?(r[I.krog]||"").trim():"",
+   datum:normDate(r[I.datum]), ura:I.ura>=0?normTime(r[I.ura]):"",
+   domacin:(r[I.domacin]||"").trim(), gost:(r[I.gost]||"").trim(),
+   rezultat:I.rezultat>=0?(r[I.rezultat]||"").trim():"",
+   status:I.status>=0?((r[I.status]||"").trim()||"Napovedano"):"Napovedano",
+   opomba:I.opomba>=0?(r[I.opomba]||"").trim():""
+  })).filter(x=>x.datum&&x.domacin&&x.gost).sort((a,b)=>(a.datum+a.ura).localeCompare(b.datum+b.ura));
+  refillFilters(); render();
+  document.querySelector("#updated").textContent=`Podatki iz Google Sheets · naloženo ${new Date().toLocaleString("sl-SI",{dateStyle:"short",timeStyle:"short"})}`;
+ }catch(err){
+  console.error(err);
+  list.innerHTML='<div class="errorbox"><strong>Podatkov trenutno ni mogoče naložiti.</strong><br>Poskusi osvežiti stran čez nekaj trenutkov.</div>';
+  summary.textContent="";
+  document.querySelector("#updated").textContent="Vir podatkov trenutno ni dosegljiv.";
+ }
+}
+loadData();
 
 const modal=document.querySelector("#reportModal"), closeModal=document.querySelector("#closeModal"), reportForm=document.querySelector("#reportForm"), reportMatch=document.querySelector("#reportMatch");
 let activeReport=null;

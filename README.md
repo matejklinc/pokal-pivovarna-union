@@ -1,13 +1,14 @@
-# Pokal Pivovarna Union 2026/27 — neuradna stran
+# Pokal Pivovarna Union 2026/27 — V3
 
-Statična spletna stran z neuradnim pregledom tekem.
+V3 bere tekme neposredno iz objavljene Google Sheets CSV preglednice.
 
-## Vključeno
-- Naslednje tekme / vse tekme / rezultati
-- prikaz današnjih tekem
-- iskanje po klubu
-- filter in hitri klik po MNZ
-- filter po krogu
-- obrazec za rezultat, prizorišče ali popravek
-- datum zadnje posodobitve
-- pojasnilo o virih in neuradnem/nekomercialnem značaju strani
+## Urejanje
+V Google Sheets uporabljaj stolpce:
+MNZ | Krog | Datum | Ura | Domačin | Gost | Rezultat | Status | Opomba
+
+- prazen rezultat = prihajajoča tekma
+- vpisan rezultat = tekma se prikaže med rezultati
+- Status: Napovedano / Končano / Preloženo / Odpovedano
+- Opomba se prikaže pod tekmo
+
+Za običajne spremembe po tej verziji ni treba spreminjati GitHuba.
