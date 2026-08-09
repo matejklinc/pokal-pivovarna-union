@@ -1,13 +1,13 @@
-# Pokal Pivovarna Union 2026/27 — prototip
+# Pokal Pivovarna Union 2026/27 — neuradna stran
 
-Prva statična verzija strani, izdelana iz priloženega Excela.
-
-## Zagon
-Odpri `index.html` v brskalniku.
+Statična spletna stran z neuradnim pregledom tekem.
 
 ## Vključeno
-- kronološki seznam tekem
+- Naslednje tekme / vse tekme / rezultati
+- prikaz današnjih tekem
 - iskanje po klubu
-- filter po MNZ
+- filter in hitri klik po MNZ
 - filter po krogu
-- prilagoditev za telefon
+- obrazec za rezultat, prizorišče ali popravek
+- datum zadnje posodobitve
+- pojasnilo o virih in neuradnem/nekomercialnem značaju strani
