@@ -1,18 +1,6 @@
-# Pokal Pivovarna Union 2026/27 — V4
+# Pokal Pivovarna Union 2026/27 — V4.2
 
-V4 bere podatke iz Google Sheets.
-
-## Ključne spremembe
-- ura tekme je vedno prikazana na levi, tudi ko je vpisan rezultat
-- rezultat je prikazan v ločenem polju desno od para ekip
-- vpis rezultata sam pomeni, da se tekma prikaže med Rezultati
-- za odigrane tekme statusa ni treba vpisovati
-- Status je namenjen predvsem posebnim stanjem (npr. Preložena, Odpovedana)
-- obrazec še vedno sprejema rezultat, prizorišče, termin in druge popravke
-
-Google Sheets stolpci:
-MNZ | Krog | Datum | Ura | Domačin | Gost | Rezultat | Status | Opomba
-
-## V4.1
-- odstranjen napis Google Sheets iz javnega vmesnika
-- v pogledu Vse tekme so odigrane tekme subtilno sivo osenčene
+- odstranjene javne omembe Google Sheets
+- dodan gumb »♥ Podpri projekt« s PayPal.Me povezavo
+- posodobljen disclaimer glede prostovoljnih prispevkov
+- ohranjene funkcije V4.1

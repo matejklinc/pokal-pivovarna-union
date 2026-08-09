@@ -36,7 +36,10 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 .todaybox{display:none;background:#111827;color:white;border-radius:16px;padding:17px 18px;margin:14px 0}.todaybox.show{display:block}.todaybox strong{font-size:18px}.todaybox span{display:block;color:#cbd5e1;font-size:12px;margin-top:3px}
 .mnzlink{border:0;background:transparent;color:var(--muted);font:inherit;font-size:12px;padding:0;cursor:pointer;text-decoration:underline;text-decoration-color:#d0d5dd;text-underline-offset:2px}.mnzlink:hover{color:#b42318}
 .updated{margin:8px 2px 0;color:#98a2b3;font-size:12px}
-.info{margin-top:34px;background:white;border:1px solid var(--line);border-radius:16px;padding:18px}.info h3{margin:0 0 8px;font-size:15px}.info p{margin:7px 0;color:#667085;font-size:12px;line-height:1.55}
+.support-wrap{display:flex;justify-content:center;margin:28px 0 8px}
+.support-btn{display:inline-flex;align-items:center;gap:8px;background:#111827;color:#fff;text-decoration:none;font-weight:800;font-size:13px;padding:11px 16px;border-radius:999px;box-shadow:0 4px 12px rgba(17,24,39,.12)}
+.support-btn:hover{transform:translateY(-1px)}
+.info{margin-top:20px;background:white;border:1px solid var(--line);border-radius:16px;padding:18px}.info h3{margin:0 0 8px;font-size:15px}.info p{margin:7px 0;color:#667085;font-size:12px;line-height:1.55}
 
 .loading{padding:55px 10px;text-align:center;color:var(--muted)}
 .errorbox{margin:18px 0;background:#fff7ed;border:1px solid #fed7aa;border-radius:14px;padding:16px;color:#9a3412;font-size:13px;line-height:1.5}
@@ -69,15 +72,16 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 <select id="mnz"><option value="">Vse MNZ</option></select>
 <select id="round"><option value="">Vsi krogi</option></select>
 </div>
-<div id="summary" class="summary"></div><div id="updated" class="updated">Nalagam podatke iz Google Sheets …</div>
+<div id="summary" class="summary"></div><div id="updated" class="updated">Nalagam podatke …</div>
 <div id="list"></div>
 </main>
 
 
+<div class="support-wrap"><a class="support-btn" href="https://paypal.me/MatejKlinc" target="_blank" rel="noopener noreferrer">♥ Podpri projekt</a></div>
 <section class="info">
 <h3>O strani in virih</h3>
-<p>To je <strong>neuradna, nekomercialna stran</strong>. Podatki o tekmah so zbrani iz javno dostopnih objav in spletnih strani posameznih medobčinskih nogometnih zvez (MNZ). Termini in drugi podatki se lahko spremenijo, zato pred obiskom tekme priporočamo preverjanje uradnih objav pristojne MNZ.</p>
-<p>Stran je nastala z namenom, da na enem mestu olajša pregled javno objavljenih informacij o tekmovanju. Ni povezana z Nogometno zvezo Slovenije, Pivovarno Union ali posameznimi MNZ in ni namenjena ustvarjanju prihodkov. Imena tekmovanj, klubov, organizacij ter morebitne blagovne znamke ostajajo last njihovih imetnikov. Če imetnik pravic meni, da je kateri podatek ali vsebina uporabljena neustrezno, lahko zahteva popravek ali odstranitev.</p>
+<p>To je <strong>neuradna in neodvisna stran</strong>. Podatki o tekmah so zbrani iz javno dostopnih objav in spletnih strani posameznih medobčinskih nogometnih zvez (MNZ). Termini in drugi podatki se lahko spremenijo, zato pred obiskom tekme priporočamo preverjanje uradnih objav pristojne MNZ.</p>
+<p>Stran je nastala z namenom, da na enem mestu olajša pregled javno objavljenih informacij o tekmovanju. Ni povezana z Nogometno zvezo Slovenije, Pivovarno Union ali posameznimi MNZ. Imena tekmovanj, klubov, organizacij in blagovne znamke ostajajo last njihovih imetnikov. Prostovoljni prispevki so namenjeni podpori vzdrževanja in nadaljnjega razvoja projekta. Če imetnik pravic meni, da je kateri podatek ali vsebina uporabljena neustrezno, lahko zahteva popravek ali odstranitev.</p>
 </section>
 
 <div id="reportModal" class="modal-backdrop" aria-hidden="true">
@@ -105,7 +109,7 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
   </div>
 </div>
 
-<footer>Podatki se nalagajo iz uredniške Google preglednice. Termini se lahko spremenijo; pred obiskom preveri uradne objave posamezne MNZ.</footer>
+<footer>Termini se lahko spremenijo; pred obiskom preveri uradne objave posamezne MNZ.</footer>
 <script>
 let matches = [];
 const DATA_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSUgn6ELDWyUJDdxwS5qPqa1gsvzmYohPsPEVR_YI7CtbC5RpdRNO6VzGs2dreY4-B2Q4qDGVjOrqgq/pub?gid=0&single=true&output=csv";
