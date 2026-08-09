@@ -43,6 +43,9 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 .status-prelozeno{background:#fff7ed!important;color:#9a3412!important}.status-odpovedano{background:#fef2f2!important;color:#b91c1c!important}.result{font-weight:900;font-size:22px;color:#111827;white-space:nowrap}
 .scorebox{min-width:72px;text-align:center;align-self:center}
 .card.has-score{grid-template-columns:76px minmax(0,1fr) 86px auto}
+.card.completed{background:#f0f2f5;border-color:#d9dde4;box-shadow:inset 4px 0 0 #98a2b3}
+.card.completed .teams{color:#344054}
+.card.completed .meta,.card.completed .mnzlink{color:#7b8493}
 @media(max-width:720px){.card.has-score{grid-template-columns:58px minmax(0,1fr) 72px}.card.has-score .badges{grid-column:2 / 4}.scorebox{text-align:right}.result{font-size:20px}}
 .note-line{margin-top:5px;font-size:12px;color:#667085;font-style:italic}
 @media(max-width:720px){.toolbar{grid-template-columns:1fr;position:static}.card{grid-template-columns:58px 1fr}.badges{grid-column:2;justify-content:flex-start}.time{font-size:16px}.teams{font-size:15px}}
@@ -127,7 +130,7 @@ function render(){
  list.innerHTML=Object.entries(groups).map(([date,arr])=>{
    const d=new Date(date+"T12:00:00");
    return `<section class="day"><div class="day-title"><h2>${prettyDate(date)}</h2><span>${days[d.getDay()]}</span></div>`+
-   arr.map(x=>`<article class="card ${x.rezultat?"has-score":""}">
+   arr.map(x=>`<article class="card ${x.rezultat?"has-score":""} ${currentView==="all" && x.rezultat?"completed":""}">
      <div class="time">${x.ura?esc(x.ura):'<span class="tbd">NEZNANA URA</span>'}</div>
      <div><div class="teams">${esc(x.domacin)} <span class="dash">–</span> ${esc(x.gost)}</div><div class="meta"><button class="mnzlink" data-mnzfilter="${esc(x.mnz)}">${esc(x.mnz)}</button></div>${x.opomba?`<div class="note-line">${esc(x.opomba)}</div>`:""}<button class="report" data-match="${esc(x.domacin)} – ${esc(x.gost)}" data-date="${esc(x.datum)}" data-time="${esc(x.ura)}" data-mnz="${esc(x.mnz)}">✎ Sporoči podatek</button></div>
      ${x.rezultat?`<div class="scorebox"><span class="result">${esc(x.rezultat)}</span></div>`:""}
@@ -181,7 +184,7 @@ function refillFilters(){
  if([...round.options].some(o=>o.value===keepR))round.value=keepR;
 }
 async function loadData(){
- list.innerHTML='<div class="loading"><strong>Nalagam tekme …</strong><br><span style="font-size:12px">Podatki se osvežujejo iz Google Sheets.</span></div>';
+ list.innerHTML='<div class="loading"><strong>Nalagam tekme …</strong></div>';
  try{
   const res=await fetch(DATA_URL+"&t="+Date.now(),{cache:"no-store"});
   if(!res.ok)throw new Error("HTTP "+res.status);
@@ -200,7 +203,7 @@ async function loadData(){
    opomba:I.opomba>=0?(r[I.opomba]||"").trim():""
   })).filter(x=>x.datum&&x.domacin&&x.gost).sort((a,b)=>(a.datum+a.ura).localeCompare(b.datum+b.ura));
   refillFilters(); render();
-  document.querySelector("#updated").textContent=`Podatki iz Google Sheets · naloženo ${new Date().toLocaleString("sl-SI",{dateStyle:"short",timeStyle:"short"})}`;
+  document.querySelector("#updated").textContent=`Posodobljeno ${new Date().toLocaleString("sl-SI",{dateStyle:"short",timeStyle:"short"})}`;
  }catch(err){
   console.error(err);
   list.innerHTML='<div class="errorbox"><strong>Podatkov trenutno ni mogoče naložiti.</strong><br>Poskusi osvežiti stran čez nekaj trenutkov.</div>';

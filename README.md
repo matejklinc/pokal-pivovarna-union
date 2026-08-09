@@ -12,3 +12,7 @@ V4 bere podatke iz Google Sheets.
 
 Google Sheets stolpci:
 MNZ | Krog | Datum | Ura | Domačin | Gost | Rezultat | Status | Opomba
+
+## V4.1
+- odstranjen napis Google Sheets iz javnega vmesnika
+- v pogledu Vse tekme so odigrane tekme subtilno sivo osenčene
