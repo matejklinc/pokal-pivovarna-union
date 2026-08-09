@@ -36,6 +36,9 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 .todaybox{display:none;background:#111827;color:white;border-radius:16px;padding:17px 18px;margin:14px 0}.todaybox.show{display:block}.todaybox strong{font-size:18px}.todaybox span{display:block;color:#cbd5e1;font-size:12px;margin-top:3px}
 .mnzlink{border:0;background:transparent;color:var(--muted);font:inherit;font-size:12px;padding:0;cursor:pointer;text-decoration:underline;text-decoration-color:#d0d5dd;text-underline-offset:2px}.mnzlink:hover{color:#b42318}
 .updated{margin:8px 2px 0;color:#98a2b3;font-size:12px}
+.missing-wrap{display:flex;justify-content:center;margin:18px 0 4px}
+.missing-btn{border:1px solid #b42318;background:#fff;color:#b42318;font:inherit;font-size:14px;font-weight:850;padding:11px 16px;border-radius:12px;cursor:pointer;box-shadow:0 2px 8px rgba(180,35,24,.08)}
+.missing-btn:hover{background:#fff4f2}
 .support-wrap{display:flex;justify-content:center;margin:28px 0 8px}
 .support-btn{display:inline-flex;align-items:center;gap:8px;background:#111827;color:#fff;text-decoration:none;font-weight:800;font-size:13px;padding:11px 16px;border-radius:999px;box-shadow:0 4px 12px rgba(17,24,39,.12)}
 .support-btn:hover{transform:translateY(-1px)}
@@ -73,6 +76,7 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 <select id="round"><option value="">Vsi krogi</option></select>
 </div>
 <div id="summary" class="summary"></div><div id="updated" class="updated">Nalagam podatke …</div>
+<div class="missing-wrap"><button id="missingMatchBtn" class="missing-btn">＋ Manjka tekma? Sporoči jo</button></div>
 <div id="list"></div>
 </main>
 
@@ -92,7 +96,7 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
     </div>
     <form id="reportForm" action="https://formsubmit.co/matej.klinc@gmail.com" method="POST">
       <div class="field"><label for="reportType">Kaj sporočaš?</label>
-        <select id="reportType" name="Vrsta sporočila"><option>Rezultat</option><option>Prizorišče</option><option>Sprememba termina</option><option>Napačen podatek</option><option>Drug popravek</option></select>
+        <select id="reportType" name="Vrsta sporočila"><option>Manjkajoča tekma</option><option>Rezultat</option><option>Prizorišče</option><option>Sprememba termina</option><option>Napačen podatek</option><option>Drug popravek</option></select>
       </div>
       <div class="field"><label for="reportText">Podatek / popravek</label><textarea id="reportText" name="Sporočilo" required placeholder="Npr. rezultat 2:1, prizorišče ali nova ura tekme 18:00"></textarea></div>
       <div class="field"><label for="reportContact">Tvoj kontakt (neobvezno)</label><input id="reportContact" name="Kontakt pošiljatelja" placeholder="E-pošta ali drugo"></div>
@@ -219,9 +223,22 @@ loadData();
 
 const modal=document.querySelector("#reportModal"), closeModal=document.querySelector("#closeModal"), reportForm=document.querySelector("#reportForm"), reportMatch=document.querySelector("#reportMatch");
 let activeReport=null;
+const missingMatchBtn=document.querySelector("#missingMatchBtn");
+missingMatchBtn.addEventListener("click",()=>{
+ activeReport={match:"Manjkajoča tekma",date:"",time:"",mnz:""};
+ reportMatch.textContent="Sporoči tekmo, ki je še ni na seznamu.";
+ document.querySelector("#reportType").value="Manjkajoča tekma";
+ document.querySelector("#reportText").placeholder="Npr. domačin – gost, datum, ura, MNZ/krog in vir podatka (če ga poznaš)";
+ document.querySelector("#matchHidden").value="Manjkajoča tekma";
+ document.querySelector("#dateHidden").value="ni navedeno";
+ document.querySelector("#timeHidden").value="ni navedena";
+ document.querySelector("#mnzHidden").value="ni navedeno";
+ modal.classList.add("open"); modal.setAttribute("aria-hidden","false"); document.querySelector("#reportText").focus();
+});
 document.addEventListener("click",e=>{
  const b=e.target.closest(".report"); if(!b)return;
  activeReport={match:b.dataset.match,date:b.dataset.date,time:b.dataset.time,mnz:b.dataset.mnz};
+ document.querySelector("#reportText").placeholder="Npr. rezultat 2:1, prizorišče ali nova ura tekme 18:00";
  reportMatch.textContent=`${activeReport.match} · ${activeReport.date}${activeReport.time?" · "+activeReport.time:""} · ${activeReport.mnz}`;
  document.querySelector("#matchHidden").value=activeReport.match;
  document.querySelector("#dateHidden").value=activeReport.date;
