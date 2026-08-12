@@ -192,12 +192,12 @@ function render(){
  list.innerHTML=Object.entries(groups).map(([date,arr])=>{
    const d=new Date(date+"T12:00:00");
    return `<section class="day"><div class="day-title"><h2>${prettyDate(date)}</h2><span>${days[d.getDay()]}</span></div>`+
-   arr.map(x=>`<article class="card ${x.rezultat?"has-score":""} ${currentView==="all" && x.rezultat?"completed":""}">
+   arr.map(x=>{const ri=resultInfo(x.rezultat); return `<article class="card ${x.rezultat?"has-score":""} ${currentView==="all" && x.rezultat?"completed":""}">
      <div class="time">${x.ura?esc(x.ura):'<span class="tbd">NEZNANA URA</span>'}</div>
      <div><div class="teams"><span class="${ri.winner==="home"?"winner":""}">${esc(x.domacin)}</span> <span class="dash">–</span> <span class="${ri.winner==="away"?"winner":""}">${esc(x.gost)}</span></div><div class="meta"><button class="mnzlink" data-mnzfilter="${esc(x.mnz)}">${esc(x.mnz)}</button></div>${x.opomba?`<div class="note-line">${esc(x.opomba)}</div>`:""}${renderChanges(x)}<button class="report" data-match="${esc(x.domacin)} – ${esc(x.gost)}" data-date="${esc(x.datum)}" data-time="${esc(x.ura)}" data-mnz="${esc(x.mnz)}">✎ Sporoči podatek</button></div>
      ${x.rezultat?`<div class="scorebox"><span class="result">${esc(ri.display)}</span></div>`:""}
      <div class="badges"><span class="badge round">${esc(x.krog)}</span>${x.status && !["","napovedano","napovedana","končano","končana","odigrano","odigrana"].includes(x.status.toLowerCase())?`<span class="badge status-${esc(x.status.toLowerCase())}">${esc(x.status)}</span>`:""}</div>
-   </article>`).join("")+`</section>`;
+   </article>`}).join("")+`</section>`;
  }).join("");
 }
 document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{
