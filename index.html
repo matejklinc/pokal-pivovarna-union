@@ -52,6 +52,22 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 .card.completed{background:#f0f2f5;border-color:#d9dde4;box-shadow:inset 4px 0 0 #98a2b3}
 .card.completed .teams{color:#344054}
 .card.completed .meta,.card.completed .mnzlink{color:#7b8493}
+
+.changes{margin:14px 0 4px;border:1px solid var(--line);background:rgba(255,255,255,.72);border-radius:12px;overflow:hidden}
+.changes summary{list-style:none;cursor:pointer;padding:10px 13px;font-size:12px;font-weight:800;color:#667085;display:flex;align-items:center;justify-content:space-between;user-select:none}
+.changes summary::-webkit-details-marker{display:none}.changes[open] summary{color:#344054;border-bottom:1px solid var(--line)}
+.changes summary span{font-size:10px;transition:transform .2s}.changes[open] summary span{transform:rotate(180deg)}
+.changes-panel{padding:4px 13px 9px}.change-item{display:grid;grid-template-columns:86px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid #eef0f3;font-size:12px;line-height:1.4;color:#667085}
+.change-item:last-child{border-bottom:0}.change-item strong{color:#344054;font-size:11px}
+.email-note{margin:-3px 0 10px;font-size:11px;line-height:1.4;color:#7b8493}
+
+
+.match-change{margin-top:7px}
+.match-change summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;color:#667085;user-select:none}
+.match-change summary::-webkit-details-marker{display:none}.match-change summary:hover{color:#344054}
+.match-change-panel{margin-top:7px;padding:8px 10px;background:#f8fafc;border:1px solid #eaecf0;border-radius:9px;font-size:11px;line-height:1.45;color:#667085}
+.match-change-row{padding:3px 0}.match-change-row+.match-change-row{border-top:1px solid #eef0f3}
+
 @media(max-width:720px){.card.has-score{grid-template-columns:58px minmax(0,1fr) 72px}.card.has-score .badges{grid-column:2 / 4}.scorebox{text-align:right}.result{font-size:20px}}
 .note-line{margin-top:5px;font-size:12px;color:#667085;font-style:italic}
 @media(max-width:720px){.toolbar{grid-template-columns:1fr;position:static}.card{grid-template-columns:58px 1fr}.badges{grid-column:2;justify-content:flex-start}.time{font-size:16px}.teams{font-size:15px}}
@@ -64,6 +80,15 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 <div class="sub">Sezona 2026/27 · <strong>neuradna stran</strong> · pregled tekem slovenskega pokala</div>
 </div></header>
 <main class="wrap">
+<details class="changes">
+<summary>Zadnje spremembe <span>▾</span></summary>
+<div class="changes-panel">
+  <div class="change-item"><strong>12. 8. 2026</strong><span>Dodana zgodovina sprememb pri posameznih tekmah ter pojasnilo pri e-mailu v obrazcu.</span></div>
+  <div class="change-item"><strong>9. 8. 2026</strong><span>Dodan obrazec za manjkajoče tekme, podpora projektu in statistika obiska.</span></div>
+  <div class="change-item"><strong>9. 8. 2026</strong><span>Rezultati, statusi tekem in neposredno sprotno posodabljanje podatkov.</span></div>
+</div>
+</details>
+
 <div class="tabs" role="navigation" aria-label="Prikaz tekem">
 <button class="tab active" data-view="next">Naslednje tekme</button>
 <button class="tab" data-view="all">Vse tekme</button>
@@ -125,6 +150,15 @@ function localISODate(){const d=new Date(); return `${d.getFullYear()}-${String(
 const siteToday=localISODate();
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function prettyDate(ds){let d=new Date(ds+"T12:00:00"); return `${d.getDate()}. ${monthNames[d.getMonth()]} ${d.getFullYear()}`}
+
+function renderChanges(x){
+ if(!x.spremembe)return "";
+ const items=x.spremembe.split("|").map(s=>s.trim()).filter(Boolean);
+ if(!items.length)return "";
+ const label=x.zadnjaSprememba?`↻ Spremenjeno ${esc(x.zadnjaSprememba)}`:"↻ Zgodovina sprememb";
+ return `<details class="match-change"><summary>${label} ▾</summary><div class="match-change-panel">${items.map(i=>`<div class="match-change-row">${esc(i)}</div>`).join("")}</div></details>`;
+}
+
 function render(){
  const needle=q.value.trim().toLocaleLowerCase("sl");
  let rows=matches.filter(x=>(!mnz.value||x.mnz===mnz.value)&&(!round.value||x.krog===round.value)&&(!needle||`${x.domacin} ${x.gost}`.toLocaleLowerCase("sl").includes(needle)));
@@ -140,7 +174,7 @@ function render(){
    return `<section class="day"><div class="day-title"><h2>${prettyDate(date)}</h2><span>${days[d.getDay()]}</span></div>`+
    arr.map(x=>`<article class="card ${x.rezultat?"has-score":""} ${currentView==="all" && x.rezultat?"completed":""}">
      <div class="time">${x.ura?esc(x.ura):'<span class="tbd">NEZNANA URA</span>'}</div>
-     <div><div class="teams">${esc(x.domacin)} <span class="dash">–</span> ${esc(x.gost)}</div><div class="meta"><button class="mnzlink" data-mnzfilter="${esc(x.mnz)}">${esc(x.mnz)}</button></div>${x.opomba?`<div class="note-line">${esc(x.opomba)}</div>`:""}<button class="report" data-match="${esc(x.domacin)} – ${esc(x.gost)}" data-date="${esc(x.datum)}" data-time="${esc(x.ura)}" data-mnz="${esc(x.mnz)}">✎ Sporoči podatek</button></div>
+     <div><div class="teams">${esc(x.domacin)} <span class="dash">–</span> ${esc(x.gost)}</div><div class="meta"><button class="mnzlink" data-mnzfilter="${esc(x.mnz)}">${esc(x.mnz)}</button></div>${x.opomba?`<div class="note-line">${esc(x.opomba)}</div>`:""}${renderChanges(x)}<button class="report" data-match="${esc(x.domacin)} – ${esc(x.gost)}" data-date="${esc(x.datum)}" data-time="${esc(x.ura)}" data-mnz="${esc(x.mnz)}">✎ Sporoči podatek</button></div>
      ${x.rezultat?`<div class="scorebox"><span class="result">${esc(x.rezultat)}</span></div>`:""}
      <div class="badges"><span class="badge round">${esc(x.krog)}</span>${x.status && !["","napovedano","napovedana","končano","končana","odigrano","odigrana"].includes(x.status.toLowerCase())?`<span class="badge status-${esc(x.status.toLowerCase())}">${esc(x.status)}</span>`:""}</div>
    </article>`).join("")+`</section>`;
@@ -200,7 +234,7 @@ async function loadData(){
   if(grid.length<2)throw new Error("Tabela nima podatkov");
   const headers=grid[0].map(x=>x.trim().toLowerCase());
   const idx=(...names)=>{for(const n of names){const i=headers.indexOf(n);if(i>=0)return i}return -1};
-  const I={mnz:idx("mnz"),krog:idx("krog"),datum:idx("datum"),ura:idx("ura"),domacin:idx("domačin","domacin"),gost:idx("gost"),rezultat:idx("rezultat"),status:idx("status"),opomba:idx("opomba")};
+  const I={mnz:idx("mnz"),krog:idx("krog"),datum:idx("datum"),ura:idx("ura"),domacin:idx("domačin","domacin"),gost:idx("gost"),rezultat:idx("rezultat"),status:idx("status"),opomba:idx("opomba"),zadnjaSprememba:idx("zadnja sprememba"),spremembe:idx("spremembe")};
   if(I.mnz<0||I.datum<0||I.domacin<0||I.gost<0)throw new Error("Manjkajo obvezni stolpci");
   matches=grid.slice(1).map(r=>({
    mnz:(r[I.mnz]||"").trim(), krog:I.krog>=0?(r[I.krog]||"").trim():"",
@@ -208,7 +242,9 @@ async function loadData(){
    domacin:(r[I.domacin]||"").trim(), gost:(r[I.gost]||"").trim(),
    rezultat:I.rezultat>=0?(r[I.rezultat]||"").trim():"",
    status:I.status>=0?((r[I.status]||"").trim()||"Napovedano"):"Napovedano",
-   opomba:I.opomba>=0?(r[I.opomba]||"").trim():""
+   opomba:I.opomba>=0?(r[I.opomba]||"").trim():"",
+   zadnjaSprememba:I.zadnjaSprememba>=0?(r[I.zadnjaSprememba]||"").trim():"",
+   spremembe:I.spremembe>=0?(r[I.spremembe]||"").trim():""
   })).filter(x=>x.datum&&x.domacin&&x.gost).sort((a,b)=>(a.datum+a.ura).localeCompare(b.datum+b.ura));
   refillFilters(); render();
   document.querySelector("#updated").textContent=`Posodobljeno ${new Date().toLocaleString("sl-SI",{dateStyle:"short",timeStyle:"short"})}`;
