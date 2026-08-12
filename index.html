@@ -48,7 +48,7 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 .errorbox{margin:18px 0;background:#fff7ed;border:1px solid #fed7aa;border-radius:14px;padding:16px;color:#9a3412;font-size:13px;line-height:1.5}
 .status-prelozeno{background:#fff7ed!important;color:#9a3412!important}.status-odpovedano{background:#fef2f2!important;color:#b91c1c!important}.result{font-weight:900;font-size:22px;color:#111827;white-space:nowrap}
 .scorebox{min-width:72px;text-align:center;align-self:center}
-.card.has-score{grid-template-columns:76px minmax(0,1fr) 86px auto}
+.card.has-score{grid-template-columns:76px minmax(0,1fr) 68px auto;column-gap:8px}
 .card.completed{background:#f0f2f5;border-color:#d9dde4;box-shadow:inset 4px 0 0 #98a2b3}
 .card.completed .teams{color:#344054}
 .card.completed .meta,.card.completed .mnzlink{color:#7b8493}
@@ -69,7 +69,10 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 .match-change-row{padding:3px 0}.match-change-row+.match-change-row{border-top:1px solid #eef0f3}
 
 .teams .winner{font-weight:900;color:#101828}
-@media(max-width:720px){.card.has-score{grid-template-columns:58px minmax(0,1fr) 72px}.card.has-score .badges{grid-column:2 / 4}.scorebox{text-align:right}.result{font-size:20px}}
+.card.has-score .teams span:not(.winner):not(.dash){font-weight:400;color:#667085}
+.card.has-score .teams .dash{font-weight:400;color:#98a2b3}
+.card.has-score .result{font-weight:900}
+@media(max-width:720px){.card.has-score{grid-template-columns:58px minmax(0,1fr) 64px;column-gap:6px}.card.has-score .badges{grid-column:2 / 4}.scorebox{text-align:right}.result{font-size:20px}}
 .note-line{margin-top:5px;font-size:12px;color:#667085;font-style:italic}
 @media(max-width:720px){.toolbar{grid-template-columns:1fr;position:static}.card{grid-template-columns:58px 1fr}.badges{grid-column:2;justify-content:flex-start}.time{font-size:16px}.teams{font-size:15px}}
 </style>

@@ -1,7 +1,9 @@
-# Pokal Pivovarna Union 2026/27 — V4.9.1
+# Pokal Pivovarna Union 2026/27 — V4.9.2
 
-Popravek V4.9:
-- odpravljena JavaScript napaka pri izračunu zmagovalca, zaradi katere se podatki niso naložili
-- ohranjeno samodejno odebeljevanje zmagovalca
-- `D` / `G` pri neodločenem rezultatu po 11 m ostaja podprto in skrito obiskovalcu
-- vse funkcije V4.8 ostajajo
+Vizualni popravki:
+- rezultat je pomaknjen bolj levo in bližje imenoma ekip
+- zmagovalec je izraziteje odebeljen
+- poraženec je prikazan z normalno debelino in nekoliko umirjeno barvo
+- izboljšana je tudi postavitev na manjših zaslonih
+
+Ohranjene so vse funkcije V4.9.1.
