@@ -75,6 +75,37 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 @media(max-width:720px){.card.has-score{grid-template-columns:58px minmax(0,1fr) 64px;column-gap:6px}.card.has-score .badges{grid-column:2 / 4}.scorebox{text-align:right}.result{font-size:20px}}
 .note-line{margin-top:5px;font-size:12px;color:#667085;font-style:italic}
 @media(max-width:720px){.toolbar{grid-template-columns:1fr;position:static}.card{grid-template-columns:58px 1fr}.badges{grid-column:2;justify-content:flex-start}.time{font-size:16px}.teams{font-size:15px}}
+
+/* V4.9.3 — clearer score placement */
+.card.has-score{
+  grid-template-columns:76px minmax(0,1fr) minmax(145px,190px) auto;
+  column-gap:14px;
+}
+.card.has-score .scorebox{
+  justify-self:start;
+  width:100%;
+  white-space:nowrap;
+  overflow:visible;
+}
+.card.has-score .result{
+  display:block;
+  white-space:nowrap;
+  font-size:18px;
+  line-height:1.2;
+}
+@media(max-width:720px){
+  .card.has-score{
+    grid-template-columns:58px minmax(0,1fr) minmax(112px,145px);
+    column-gap:8px;
+  }
+  .card.has-score .scorebox{
+    justify-self:start;
+  }
+  .card.has-score .result{
+    font-size:16px;
+  }
+}
+
 </style>
 </head>
 <body>
