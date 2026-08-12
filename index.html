@@ -68,6 +68,7 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 .match-change-panel{margin-top:7px;padding:8px 10px;background:#f8fafc;border:1px solid #eaecf0;border-radius:9px;font-size:11px;line-height:1.45;color:#667085}
 .match-change-row{padding:3px 0}.match-change-row+.match-change-row{border-top:1px solid #eef0f3}
 
+.teams .winner{font-weight:900;color:#101828}
 @media(max-width:720px){.card.has-score{grid-template-columns:58px minmax(0,1fr) 72px}.card.has-score .badges{grid-column:2 / 4}.scorebox{text-align:right}.result{font-size:20px}}
 .note-line{margin-top:5px;font-size:12px;color:#667085;font-style:italic}
 @media(max-width:720px){.toolbar{grid-template-columns:1fr;position:static}.card{grid-template-columns:58px 1fr}.badges{grid-column:2;justify-content:flex-start}.time{font-size:16px}.teams{font-size:15px}}
@@ -151,6 +152,23 @@ const siteToday=localISODate();
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function prettyDate(ds){let d=new Date(ds+"T12:00:00"); return `${d.getDate()}. ${monthNames[d.getMonth()]} ${d.getFullYear()}`}
 
+
+function resultInfo(raw){
+ const original=(raw||"").trim();
+ if(!original)return {display:"",winner:""};
+ let s=original, override="";
+ const ov=s.match(/\s+([DG])\s*$/i);
+ if(ov){override=ov[1].toUpperCase();s=s.slice(0,ov.index).trim();}
+ let winner="";
+ if(override==="D")winner="home";
+ else if(override==="G")winner="away";
+ else{
+  const m=s.match(/^\s*(\d+)\s*:\s*(\d+)/);
+  if(m){const a=Number(m[1]),b=Number(m[2]);if(a>b)winner="home";else if(b>a)winner="away";}
+ }
+ return {display:s,winner};
+}
+
 function renderChanges(x){
  if(!x.spremembe)return "";
  const items=x.spremembe.split("|").map(s=>s.trim()).filter(Boolean);
@@ -176,8 +194,8 @@ function render(){
    return `<section class="day"><div class="day-title"><h2>${prettyDate(date)}</h2><span>${days[d.getDay()]}</span></div>`+
    arr.map(x=>`<article class="card ${x.rezultat?"has-score":""} ${currentView==="all" && x.rezultat?"completed":""}">
      <div class="time">${x.ura?esc(x.ura):'<span class="tbd">NEZNANA URA</span>'}</div>
-     <div><div class="teams">${esc(x.domacin)} <span class="dash">–</span> ${esc(x.gost)}</div><div class="meta"><button class="mnzlink" data-mnzfilter="${esc(x.mnz)}">${esc(x.mnz)}</button></div>${x.opomba?`<div class="note-line">${esc(x.opomba)}</div>`:""}${renderChanges(x)}<button class="report" data-match="${esc(x.domacin)} – ${esc(x.gost)}" data-date="${esc(x.datum)}" data-time="${esc(x.ura)}" data-mnz="${esc(x.mnz)}">✎ Sporoči podatek</button></div>
-     ${x.rezultat?`<div class="scorebox"><span class="result">${esc(x.rezultat)}</span></div>`:""}
+     <div><div class="teams"><span class="${ri.winner==="home"?"winner":""}">${esc(x.domacin)}</span> <span class="dash">–</span> <span class="${ri.winner==="away"?"winner":""}">${esc(x.gost)}</span></div><div class="meta"><button class="mnzlink" data-mnzfilter="${esc(x.mnz)}">${esc(x.mnz)}</button></div>${x.opomba?`<div class="note-line">${esc(x.opomba)}</div>`:""}${renderChanges(x)}<button class="report" data-match="${esc(x.domacin)} – ${esc(x.gost)}" data-date="${esc(x.datum)}" data-time="${esc(x.ura)}" data-mnz="${esc(x.mnz)}">✎ Sporoči podatek</button></div>
+     ${x.rezultat?`<div class="scorebox"><span class="result">${esc(ri.display)}</span></div>`:""}
      <div class="badges"><span class="badge round">${esc(x.krog)}</span>${x.status && !["","napovedano","napovedana","končano","končana","odigrano","odigrana"].includes(x.status.toLowerCase())?`<span class="badge status-${esc(x.status.toLowerCase())}">${esc(x.status)}</span>`:""}</div>
    </article>`).join("")+`</section>`;
  }).join("");
