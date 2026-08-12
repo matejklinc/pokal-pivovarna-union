@@ -155,7 +155,9 @@ function renderChanges(x){
  if(!x.spremembe)return "";
  const items=x.spremembe.split("|").map(s=>s.trim()).filter(Boolean);
  if(!items.length)return "";
- const label=x.zadnjaSprememba?`↻ Spremenjeno ${esc(x.zadnjaSprememba)}`:"↻ Zgodovina sprememb";
+ const first=items[0]||"";
+ const m=first.match(/^\s*(\d{1,2}\.\s*\d{1,2}\.(?:\s*\d{2,4}\.)?)/);
+ const label=m?`↻ Spremenjeno ${esc(m[1].trim())}`:"↻ Zgodovina sprememb";
  return `<details class="match-change"><summary>${label} ▾</summary><div class="match-change-panel">${items.map(i=>`<div class="match-change-row">${esc(i)}</div>`).join("")}</div></details>`;
 }
 
@@ -234,7 +236,7 @@ async function loadData(){
   if(grid.length<2)throw new Error("Tabela nima podatkov");
   const headers=grid[0].map(x=>x.trim().toLowerCase());
   const idx=(...names)=>{for(const n of names){const i=headers.indexOf(n);if(i>=0)return i}return -1};
-  const I={mnz:idx("mnz"),krog:idx("krog"),datum:idx("datum"),ura:idx("ura"),domacin:idx("domačin","domacin"),gost:idx("gost"),rezultat:idx("rezultat"),status:idx("status"),opomba:idx("opomba"),zadnjaSprememba:idx("zadnja sprememba"),spremembe:idx("spremembe")};
+  const I={mnz:idx("mnz"),krog:idx("krog"),datum:idx("datum"),ura:idx("ura"),domacin:idx("domačin","domacin"),gost:idx("gost"),rezultat:idx("rezultat"),status:idx("status"),opomba:idx("opomba"),spremembe:idx("spremembe")};
   if(I.mnz<0||I.datum<0||I.domacin<0||I.gost<0)throw new Error("Manjkajo obvezni stolpci");
   matches=grid.slice(1).map(r=>({
    mnz:(r[I.mnz]||"").trim(), krog:I.krog>=0?(r[I.krog]||"").trim():"",
@@ -243,7 +245,6 @@ async function loadData(){
    rezultat:I.rezultat>=0?(r[I.rezultat]||"").trim():"",
    status:I.status>=0?((r[I.status]||"").trim()||"Napovedano"):"Napovedano",
    opomba:I.opomba>=0?(r[I.opomba]||"").trim():"",
-   zadnjaSprememba:I.zadnjaSprememba>=0?(r[I.zadnjaSprememba]||"").trim():"",
    spremembe:I.spremembe>=0?(r[I.spremembe]||"").trim():""
   })).filter(x=>x.datum&&x.domacin&&x.gost).sort((a,b)=>(a.datum+a.ura).localeCompare(b.datum+b.ura));
   refillFilters(); render();
