@@ -138,6 +138,7 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 <details class="changes">
 <summary>Zadnje spremembe <span>▾</span></summary>
 <div class="changes-panel">
+  <div class="change-item"><strong>16. 9. 2026</strong><span>Urejen vrstni red lig v pregledu 3. kroga.</span></div>
   <div class="change-item"><strong>16. 9. 2026</strong><span>Dodan pregled udeležencev 3. kroga po ligah.</span></div>
   <div class="change-item"><strong>12. 8. 2026</strong><span>Dodana zgodovina sprememb pri posameznih tekmah ter pojasnilo pri e-mailu v obrazcu.</span></div>
   <div class="change-item"><strong>9. 8. 2026</strong><span>Dodan obrazec za manjkajoče tekme, podpora projektu in statistika obiska.</span></div>
@@ -150,7 +151,7 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
   <div class="round3-head">
     <div>
       <h2>3. krog</h2>
-      <div class="round3-sub">Udeleženci 3. kroga · žreb še ni opravljen</div>
+      <div class="round3-sub">Udeleženci 3. kroga · žreb še ni opravljen<br><strong>3. krog je predviden za soboto, 24. 10. 2026.</strong></div>
     </div>
     <div class="round3-total" id="round3Total">32 ekip</div>
   </div>
@@ -346,10 +347,11 @@ loadData();
 const TEAMS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSUgn6ELDWyUJDdxwS5qPqa1gsvzmYohPsPEVR_YI7CtbC5RpdRNO6VzGs2dreY4-B2Q4qDGVjOrqgq/pub?gid=1313131220&single=true&output=csv";
 
 function leagueOrder(name){
- const s=(name||"").toLocaleLowerCase("sl");
- if(s.includes("1. snl")) return 10;
- if(s.includes("2. snl")) return 20;
- if(s.includes("3. snl")) return 30;
+ const s=(name||"").trim().toLocaleLowerCase("sl");
+ if(s==="prva liga telemach") return 10;
+ if(s==="2. snl") return 20;
+ if(s==="3. snl vzhod") return 30;
+ if(s==="3. snl zahod") return 40;
  return 100;
 }
 function isRound3Status(s){
