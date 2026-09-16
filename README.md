@@ -1,12 +1,13 @@
-# Pokal Pivovarna Union 2026/27 — V5.3
+# Pokal Pivovarna Union 2026/27 — V5.4
 
-Termin 3. kroga je prestavljen iz podnaslova v diskretno oznako ob naslovu:
+Popravljeno slovensko sklanjanje števila klubov v pregledu 3. kroga:
 
-**PREDVIDEN TERMIN · sobota, 24. 10. 2026**
+- 1 klub
+- 2 kluba
+- 3 klubi
+- 4 klubi
+- 5 klubov in naprej
 
-Siva oznaka namenoma vizualno ločuje predvideni termin od potrjenega termina.
+Beseda `ekipa` je v števcih zamenjana z `klub`.
 
-Pod naslovom ostane:
-`Udeleženci 3. kroga · žreb še ni opravljen`
-
-Vse funkcije V5.2 so ohranjene.
+Vse funkcije V5.3 so ohranjene.

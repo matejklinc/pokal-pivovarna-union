@@ -159,7 +159,7 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
       <div class="round3-titleline"><h2>3. krog</h2><span class="round3-date">PREDVIDEN TERMIN · sobota, 24. 10. 2026</span></div>
       <div class="round3-sub">Udeleženci 3. kroga · žreb še ni opravljen</div>
     </div>
-    <div class="round3-total" id="round3Total">32 ekip</div>
+    <div class="round3-total" id="round3Total">32 klubov</div>
   </div>
   <div id="round3Content" class="round3-loading">Nalagam udeležence …</div>
 </section>
@@ -352,6 +352,15 @@ loadData();
 
 const TEAMS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSUgn6ELDWyUJDdxwS5qPqa1gsvzmYohPsPEVR_YI7CtbC5RpdRNO6VzGs2dreY4-B2Q4qDGVjOrqgq/pub?gid=1313131220&single=true&output=csv";
 
+
+function klubLabel(n){
+ const mod100=n%100, mod10=n%10;
+ if(mod100===1) return "klub";
+ if(mod100===2) return "kluba";
+ if(mod100===3 || mod100===4) return "klubi";
+ return "klubov";
+}
+
 function leagueOrder(name){
  const s=(name||"").trim().toLocaleLowerCase("sl");
  if(s==="prva liga telemach") return 10;
@@ -383,12 +392,12 @@ async function loadTeams(){
    const groups=new Map();
    teams.forEach(x=>{if(!groups.has(x.liga))groups.set(x.liga,[]);groups.get(x.liga).push(x.ekipa)});
    const ordered=[...groups.entries()].sort((a,b)=>leagueOrder(a[0])-leagueOrder(b[0])||a[0].localeCompare(b[0],"sl"));
-   document.querySelector("#round3Total").textContent=teams.length+" "+(teams.length===1?"ekipa":"ekip");
+   document.querySelector("#round3Total").textContent=teams.length+" "+klubLabel(teams.length);
    box.className="leagues";
    box.innerHTML=ordered.map(([league,names])=>{
       names.sort((a,b)=>a.localeCompare(b,"sl"));
       return `<div class="league">
-        <div class="league-title"><strong>${esc(league)}</strong><span>${names.length} ${names.length===1?"ekipa":"ekip"}</span></div>
+        <div class="league-title"><strong>${esc(league)}</strong><span>${names.length} ${klubLabel(names.length)}</span></div>
         <div class="team-grid">${names.map(n=>`<div class="team-item">${esc(n)}</div>`).join("")}</div>
       </div>`;
    }).join("");
