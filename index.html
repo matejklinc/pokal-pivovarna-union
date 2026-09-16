@@ -126,6 +126,12 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 @media(max-width:620px){.round3{padding:15px}.team-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.round3 h2{font-size:18px}}
 @media(max-width:380px){.team-grid{grid-template-columns:1fr}}
 
+
+/* V5.3 — predvideni termin ob naslovu */
+.round3-titleline{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.round3-date{display:inline-flex;align-items:center;padding:5px 8px;border-radius:999px;background:#f2f4f7;border:1px solid #e4e7ec;color:#667085;font-size:10px;font-weight:850;letter-spacing:.02em;white-space:nowrap}
+@media(max-width:520px){.round3-titleline{align-items:flex-start}.round3-date{white-space:normal;line-height:1.25}}
+
 </style>
 </head>
 <body>
@@ -150,8 +156,8 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 <section class="round3" id="round3">
   <div class="round3-head">
     <div>
-      <h2>3. krog</h2>
-      <div class="round3-sub">Udeleženci 3. kroga · žreb še ni opravljen<br><strong>3. krog je predviden za soboto, 24. 10. 2026.</strong></div>
+      <div class="round3-titleline"><h2>3. krog</h2><span class="round3-date">PREDVIDEN TERMIN · sobota, 24. 10. 2026</span></div>
+      <div class="round3-sub">Udeleženci 3. kroga · žreb še ni opravljen</div>
     </div>
     <div class="round3-total" id="round3Total">32 ekip</div>
   </div>
