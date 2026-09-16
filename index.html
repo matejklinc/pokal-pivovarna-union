@@ -106,6 +106,26 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
   }
 }
 
+
+/* V5.0 — udeleženci 3. kroga */
+.round3{margin:18px 0 22px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:17px 18px}
+.round3-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:14px}
+.round3 h2{margin:0;font-size:20px}
+.round3-sub{margin-top:4px;color:var(--muted);font-size:12px}
+.round3-total{flex:0 0 auto;background:var(--soft);color:#b42318;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:850}
+.leagues{display:grid;gap:11px}
+.league{border-top:1px solid #eef0f3;padding-top:11px}
+.league:first-child{border-top:0;padding-top:0}
+.league-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.league-title strong{font-size:12px;color:#344054}
+.league-title span{font-size:10px;font-weight:800;color:#98a2b3}
+.team-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.team-item{min-width:0;border:1px solid #eaecf0;background:#f8fafc;border-radius:9px;padding:8px 9px;font-size:12px;font-weight:750;color:#344054;line-height:1.3}
+.round3-loading,.round3-error{color:var(--muted);font-size:12px;padding:6px 0}
+@media(max-width:850px){.team-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:620px){.round3{padding:15px}.team-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.round3 h2{font-size:18px}}
+@media(max-width:380px){.team-grid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -118,11 +138,24 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 <details class="changes">
 <summary>Zadnje spremembe <span>▾</span></summary>
 <div class="changes-panel">
+  <div class="change-item"><strong>16. 9. 2026</strong><span>Dodan pregled udeležencev 3. kroga po ligah.</span></div>
   <div class="change-item"><strong>12. 8. 2026</strong><span>Dodana zgodovina sprememb pri posameznih tekmah ter pojasnilo pri e-mailu v obrazcu.</span></div>
   <div class="change-item"><strong>9. 8. 2026</strong><span>Dodan obrazec za manjkajoče tekme, podpora projektu in statistika obiska.</span></div>
   <div class="change-item"><strong>9. 8. 2026</strong><span>Rezultati, statusi tekem in neposredno sprotno posodabljanje podatkov.</span></div>
 </div>
 </details>
+
+
+<section class="round3" id="round3">
+  <div class="round3-head">
+    <div>
+      <h2>3. krog</h2>
+      <div class="round3-sub">Udeleženci 3. kroga · žreb še ni opravljen</div>
+    </div>
+    <div class="round3-total" id="round3Total">32 ekip</div>
+  </div>
+  <div id="round3Content" class="round3-loading">Nalagam udeležence …</div>
+</section>
 
 <div class="tabs" role="navigation" aria-label="Prikaz tekem">
 <button class="tab active" data-view="next">Naslednje tekme</button>
@@ -309,6 +342,56 @@ async function loadData(){
  }
 }
 loadData();
+
+const TEAMS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSUgn6ELDWyUJDdxwS5qPqa1gsvzmYohPsPEVR_YI7CtbC5RpdRNO6VzGs2dreY4-B2Q4qDGVjOrqgq/pub?gid=1313131220&single=true&output=csv";
+
+function leagueOrder(name){
+ const s=(name||"").toLocaleLowerCase("sl");
+ if(s.includes("1. snl")) return 10;
+ if(s.includes("2. snl")) return 20;
+ if(s.includes("3. snl")) return 30;
+ return 100;
+}
+function isRound3Status(s){
+ s=(s||"").trim().toLocaleLowerCase("sl").replace(/\s+/g," ");
+ return !s || s==="3. krog" || s==="3 krog" || s==="3.krog";
+}
+async function loadTeams(){
+ const box=document.querySelector("#round3Content");
+ try{
+   const res=await fetch(TEAMS_URL+"&t="+Date.now(),{cache:"no-store"});
+   if(!res.ok) throw new Error("HTTP "+res.status);
+   const grid=parseCSV(await res.text());
+   if(grid.length<2) throw new Error("Tabela nima podatkov");
+   const headers=grid[0].map(x=>x.trim().toLocaleLowerCase("sl"));
+   const idx=(...names)=>{for(const n of names){const i=headers.indexOf(n);if(i>=0)return i}return -1};
+   const I={ekipa:idx("ekipa"),liga:idx("liga"),status:idx("status")};
+   if(I.ekipa<0||I.liga<0) throw new Error("Manjkajo stolpci Ekipa/Liga");
+   const teams=grid.slice(1).map(r=>({
+      ekipa:(r[I.ekipa]||"").trim(),
+      liga:(r[I.liga]||"").trim()||"Drugo",
+      status:I.status>=0?(r[I.status]||"").trim():""
+   })).filter(x=>x.ekipa&&isRound3Status(x.status));
+   const groups=new Map();
+   teams.forEach(x=>{if(!groups.has(x.liga))groups.set(x.liga,[]);groups.get(x.liga).push(x.ekipa)});
+   const ordered=[...groups.entries()].sort((a,b)=>leagueOrder(a[0])-leagueOrder(b[0])||a[0].localeCompare(b[0],"sl"));
+   document.querySelector("#round3Total").textContent=teams.length+" "+(teams.length===1?"ekipa":"ekip");
+   box.className="leagues";
+   box.innerHTML=ordered.map(([league,names])=>{
+      names.sort((a,b)=>a.localeCompare(b,"sl"));
+      return `<div class="league">
+        <div class="league-title"><strong>${esc(league)}</strong><span>${names.length} ${names.length===1?"ekipa":"ekip"}</span></div>
+        <div class="team-grid">${names.map(n=>`<div class="team-item">${esc(n)}</div>`).join("")}</div>
+      </div>`;
+   }).join("");
+ }catch(err){
+   console.error(err);
+   box.className="round3-error";
+   box.textContent="Seznama ekip trenutno ni mogoče naložiti.";
+ }
+}
+loadTeams();
+
 
 const modal=document.querySelector("#reportModal"), closeModal=document.querySelector("#closeModal"), reportForm=document.querySelector("#reportForm"), reportMatch=document.querySelector("#reportMatch");
 let activeReport=null;

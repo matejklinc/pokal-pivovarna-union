@@ -1,10 +1,12 @@
-# Pokal Pivovarna Union 2026/27 — V4.9.3
+# Pokal Pivovarna Union 2026/27 — V5.0
 
-Popravek prikaza rezultatov:
-- rezultat ima svojo širšo kolono
-- celoten zapis, npr. `0:0 (11 m)`, ostane viden
-- rezultat je pomaknjen levo od oznake kroga in se z njo ne prekriva
-- ohranjena je trenutna razlika v debelini pisave med zmagovalcem in poražencem
-- prilagojen je tudi mobilni prikaz
+## Novo
+Na prvi strani je dodan pregled udeležencev 3. kroga, razvrščenih po ligah.
 
-Ohranjene so vse funkcije V4.9.2.
+Podatki se samodejno berejo iz objavljenega zavihka `Ekipe`:
+`Ekipa | Liga | Status`
+
+Za trenutni pregled se prikazujejo ekipe s statusom `3. krog`.
+Po opravljenem žrebu bo isti vir uporabljen za prikaz lige ob posameznem klubu v parih 3. kroga.
+
+Vse funkcije V4.9.3 so ohranjene.
