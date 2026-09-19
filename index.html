@@ -367,7 +367,11 @@ function leagueOrder(name){
  if(s==="2. snl") return 20;
  if(s==="3. snl vzhod") return 30;
  if(s==="3. snl zahod") return 40;
- return 100;
+ if(s==="1. liga mnz gorenjske kranj (4.)") return 50;
+ if(s==="1. liga mnz maribor (4.)") return 60;
+ if(s==="1. pomurska liga (4.)") return 70;
+ if(s==="1. liga mnz murska sobota (5.)") return 1000;
+ return 500;
 }
 function isRound3Status(s){
  s=(s||"").trim().toLocaleLowerCase("sl").replace(/\s+/g," ");

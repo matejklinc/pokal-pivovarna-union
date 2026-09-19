@@ -1,13 +1,15 @@
-# Pokal Pivovarna Union 2026/27 — V5.4
+# Pokal Pivovarna Union 2026/27 — V5.5
 
-Popravljeno slovensko sklanjanje števila klubov v pregledu 3. kroga:
+Posodobljen vrstni red lig v pregledu klubov:
 
-- 1 klub
-- 2 kluba
-- 3 klubi
-- 4 klubi
-- 5 klubov in naprej
+1. Prva liga Telemach
+2. 2. SNL
+3. 3. SNL vzhod
+4. 3. SNL zahod
+5. 1. liga MNZ Gorenjske Kranj (4.)
+6. 1. liga MNZ Maribor (4.)
+7. 1. Pomurska liga (4.)
+8. morebitne druge lige
+9. 1. liga MNZ Murska Sobota (5.) — vedno zadnja
 
-Beseda `ekipa` je v števcih zamenjana z `klub`.
-
-Vse funkcije V5.3 so ohranjene.
+Vse funkcije V5.4 so ohranjene.
