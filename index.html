@@ -132,6 +132,29 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 .round3-date{display:inline-flex;align-items:center;padding:5px 8px;border-radius:999px;background:#f2f4f7;border:1px solid #e4e7ec;color:#667085;font-size:10px;font-weight:850;letter-spacing:.02em;white-space:nowrap}
 @media(max-width:520px){.round3-titleline{align-items:flex-start}.round3-date{white-space:normal;line-height:1.25}}
 
+
+/* V6.0 — izločilni boji, lige in pot kluba */
+.round3{margin-top:18px}
+.stage-tabs{display:flex;gap:7px;margin:12px 0 14px;flex-wrap:wrap}
+.stage-tab{border:1px solid #d0d5dd;background:#fff;color:#475467;border-radius:999px;padding:7px 11px;font-size:11px;font-weight:850;cursor:pointer}
+.stage-tab.active{background:#101828;color:#fff;border-color:#101828}
+.knockout-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.knockout-pair{border:1px solid #eaecf0;background:#f8fafc;border-radius:11px;padding:10px 11px}
+.pair-team{display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:0}
+.pair-team+.pair-team{margin-top:7px;padding-top:7px;border-top:1px solid #eaecf0}
+.team-button{appearance:none;border:0;background:none;padding:0;margin:0;color:inherit;font:inherit;font-weight:800;text-align:left;cursor:pointer;min-width:0}
+.team-button:hover{text-decoration:underline}
+.league-pill{flex:0 0 auto;max-width:48%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border:1px solid #e4e7ec;background:#fff;color:#667085;border-radius:999px;padding:3px 6px;font-size:9px;font-weight:800}
+.match-team-wrap{display:inline-flex;align-items:center;gap:5px;flex-wrap:wrap}
+.match-league{display:inline-block;color:#667085;background:#f2f4f7;border-radius:999px;padding:2px 5px;font-size:9px;font-weight:750;vertical-align:middle}
+.route-list{display:grid;gap:8px;margin-top:12px}
+.route-match{border:1px solid #eaecf0;border-radius:10px;padding:10px;background:#f8fafc}
+.route-round{font-size:10px;font-weight:850;color:#b42318;text-transform:uppercase;letter-spacing:.03em;margin-bottom:4px}
+.route-fixture{font-size:13px;font-weight:800;color:#101828}
+.route-meta{font-size:11px;color:#667085;margin-top:3px}
+.route-empty{color:#667085;font-size:13px;padding:8px 0}
+@media(max-width:680px){.knockout-grid{grid-template-columns:1fr}.league-pill{max-width:46%}}
+
 </style>
 </head>
 <body>
@@ -144,6 +167,7 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 <details class="changes">
 <summary>Zadnje spremembe <span>▾</span></summary>
 <div class="changes-panel">
+  <div class="change-item"><strong>21. 9. 2026</strong><span>3. krog preimenovan v 1/16 finala; dodani pari, lige klubov in prikaz dosedanje poti posameznega kluba.</span></div>
   <div class="change-item"><strong>16. 9. 2026</strong><span>Urejen vrstni red lig v pregledu 3. kroga.</span></div>
   <div class="change-item"><strong>16. 9. 2026</strong><span>Dodan pregled udeležencev 3. kroga po ligah.</span></div>
   <div class="change-item"><strong>12. 8. 2026</strong><span>Dodana zgodovina sprememb pri posameznih tekmah ter pojasnilo pri e-mailu v obrazcu.</span></div>
@@ -156,12 +180,16 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 <section class="round3" id="round3">
   <div class="round3-head">
     <div>
-      <div class="round3-titleline"><h2>3. krog</h2><span class="round3-date">PREDVIDEN TERMIN · sobota, 24. 10. 2026</span></div>
-      <div class="round3-sub">Udeleženci 3. kroga · žreb še ni opravljen</div>
+      <div class="round3-titleline"><h2>1/16 finala</h2><span class="round3-date">PREDVIDEN TERMIN · sobota, 24. 10. 2026</span></div>
+      <div class="round3-sub">Žreb je opravljen · 32 klubov se bori za napredovanje</div>
     </div>
     <div class="round3-total" id="round3Total">32 klubov</div>
   </div>
-  <div id="round3Content" class="round3-loading">Nalagam udeležence …</div>
+  <div class="stage-tabs" aria-label="Pregled 1/16 finala">
+    <button class="stage-tab active" data-stage-view="pairs">Pari 1/16 finala</button>
+    <button class="stage-tab" data-stage-view="teams">Klubi v igri</button>
+  </div>
+  <div id="round3Content" class="round3-loading">Nalagam pare …</div>
 </section>
 
 <div class="tabs" role="navigation" aria-label="Prikaz tekem">
@@ -187,6 +215,17 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 <p>To je <strong>neuradna in neodvisna stran</strong>. Podatki o tekmah so zbrani iz javno dostopnih objav in spletnih strani posameznih medobčinskih nogometnih zvez (MNZ). Termini in drugi podatki se lahko spremenijo, zato pred obiskom tekme priporočamo preverjanje uradnih objav pristojne MNZ.</p>
 <p>Stran je nastala z namenom, da na enem mestu olajša pregled javno objavljenih informacij o tekmovanju. Ni povezana z Nogometno zvezo Slovenije, Pivovarno Union ali posameznimi MNZ. Imena tekmovanj, klubov, organizacij in blagovne znamke ostajajo last njihovih imetnikov. Prostovoljni prispevki so namenjeni podpori vzdrževanja in nadaljnjega razvoja projekta. Če imetnik pravic meni, da je kateri podatek ali vsebina uporabljena neustrezno, lahko zahteva popravek ali odstranitev.</p>
 </section>
+
+
+<div id="clubModal" class="modal-backdrop" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="clubTitle">
+    <div class="modal-head">
+      <div><h3 id="clubTitle">Pot kluba</h3><div id="clubLeague" class="modal-sub"></div></div>
+      <button class="close" id="closeClubModal" aria-label="Zapri">×</button>
+    </div>
+    <div id="clubRoute"></div>
+  </div>
+</div>
 
 <div id="reportModal" class="modal-backdrop" aria-hidden="true">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="reportTitle">
@@ -216,6 +255,9 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 <footer>Termini se lahko spremenijo; pred obiskom preveri uradne objave posamezne MNZ.</footer>
 <script>
 let matches = [];
+let tournamentTeams = [];
+let teamLeague = new Map();
+let stageView = "pairs";
 const DATA_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSUgn6ELDWyUJDdxwS5qPqa1gsvzmYohPsPEVR_YI7CtbC5RpdRNO6VzGs2dreY4-B2Q4qDGVjOrqgq/pub?gid=0&single=true&output=csv";
 const monthNames=["januar","februar","marec","april","maj","junij","julij","avgust","september","oktober","november","december"];
 const days=["nedelja","ponedeljek","torek","sreda","četrtek","petek","sobota"];
@@ -253,6 +295,24 @@ function renderChanges(x){
  return `<details class="match-change"><summary>${label} ▾</summary><div class="match-change-panel">${items.map(i=>`<div class="match-change-row">${esc(i)}</div>`).join("")}</div></details>`;
 }
 
+
+function normRound(s){
+ return (s||"").trim().toLocaleLowerCase("sl").replace(/\s+/g," ");
+}
+function isRoundOf32(s){
+ const r=normRound(s);
+ return r==="1/16 finala" || r==="1/16 finale" || r==="1/16";
+}
+function isKnockoutRound(s){
+ const r=normRound(s);
+ return isRoundOf32(r) || r.includes("1/8") || r.includes("osmina") || r.includes("četrt") || r.includes("cetrt") || r.includes("polfinal") || r==="finale" || r==="final";
+}
+function leagueFor(team){ return teamLeague.get((team||"").trim()) || ""; }
+function clickableTeam(name, winnerClass="", showLeague=false){
+ const league=showLeague?leagueFor(name):"";
+ return `<span class="match-team-wrap"><button class="team-button ${winnerClass}" data-club="${esc(name)}">${esc(name)}</button>${league?`<span class="match-league">${esc(league)}</span>`:""}</span>`;
+}
+
 function render(){
  const needle=q.value.trim().toLocaleLowerCase("sl");
  let rows=matches.filter(x=>(!mnz.value||x.mnz===mnz.value)&&(!round.value||x.krog===round.value)&&(!needle||`${x.domacin} ${x.gost}`.toLocaleLowerCase("sl").includes(needle)));
@@ -268,7 +328,7 @@ function render(){
    return `<section class="day"><div class="day-title"><h2>${prettyDate(date)}</h2><span>${days[d.getDay()]}</span></div>`+
    arr.map(x=>{const ri=resultInfo(x.rezultat); return `<article class="card ${x.rezultat?"has-score":""} ${currentView==="all" && x.rezultat?"completed":""}">
      <div class="time">${x.ura?esc(x.ura):'<span class="tbd">NEZNANA URA</span>'}</div>
-     <div><div class="teams"><span class="${ri.winner==="home"?"winner":""}">${esc(x.domacin)}</span> <span class="dash">–</span> <span class="${ri.winner==="away"?"winner":""}">${esc(x.gost)}</span></div><div class="meta"><button class="mnzlink" data-mnzfilter="${esc(x.mnz)}">${esc(x.mnz)}</button></div>${x.opomba?`<div class="note-line">${esc(x.opomba)}</div>`:""}${renderChanges(x)}<button class="report" data-match="${esc(x.domacin)} – ${esc(x.gost)}" data-date="${esc(x.datum)}" data-time="${esc(x.ura)}" data-mnz="${esc(x.mnz)}">✎ Sporoči podatek</button></div>
+     <div><div class="teams">${clickableTeam(x.domacin,ri.winner==="home"?"winner":"",isKnockoutRound(x.krog))} <span class="dash">–</span> ${clickableTeam(x.gost,ri.winner==="away"?"winner":"",isKnockoutRound(x.krog))}</div><div class="meta"><button class="mnzlink" data-mnzfilter="${esc(x.mnz)}">${esc(x.mnz)}</button></div>${x.opomba?`<div class="note-line">${esc(x.opomba)}</div>`:""}${renderChanges(x)}<button class="report" data-match="${esc(x.domacin)} – ${esc(x.gost)}" data-date="${esc(x.datum)}" data-time="${esc(x.ura)}" data-mnz="${esc(x.mnz)}">✎ Sporoči podatek</button></div>
      ${x.rezultat?`<div class="scorebox"><span class="result">${esc(ri.display)}</span></div>`:""}
      <div class="badges"><span class="badge round">${esc(x.krog)}</span>${x.status && !["","napovedano","napovedana","končano","končana","odigrano","odigrana"].includes(x.status.toLowerCase())?`<span class="badge status-${esc(x.status.toLowerCase())}">${esc(x.status)}</span>`:""}</div>
    </article>`}).join("")+`</section>`;
@@ -339,7 +399,7 @@ async function loadData(){
    opomba:I.opomba>=0?(r[I.opomba]||"").trim():"",
    spremembe:I.spremembe>=0?(r[I.spremembe]||"").trim():""
   })).filter(x=>x.datum&&x.domacin&&x.gost).sort((a,b)=>(a.datum+a.ura).localeCompare(b.datum+b.ura));
-  refillFilters(); render();
+  refillFilters(); render(); if(tournamentTeams.length) renderTournamentSection();
   document.querySelector("#updated").textContent=`Posodobljeno ${new Date().toLocaleString("sl-SI",{dateStyle:"short",timeStyle:"short"})}`;
  }catch(err){
   console.error(err);
@@ -352,15 +412,12 @@ loadData();
 
 const TEAMS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSUgn6ELDWyUJDdxwS5qPqa1gsvzmYohPsPEVR_YI7CtbC5RpdRNO6VzGs2dreY4-B2Q4qDGVjOrqgq/pub?gid=1313131220&single=true&output=csv";
 
-
 function klubLabel(n){
- const mod100=n%100, mod10=n%10;
- if(mod100===1) return "klub";
- if(mod100===2) return "kluba";
- if(mod100===3 || mod100===4) return "klubi";
+ if(n===1) return "klub";
+ if(n===2) return "kluba";
+ if(n===3 || n===4) return "klubi";
  return "klubov";
 }
-
 function leagueOrder(name){
  const s=(name||"").trim().toLocaleLowerCase("sl");
  if(s==="prva liga telemach") return 10;
@@ -373,9 +430,43 @@ function leagueOrder(name){
  if(s==="1. liga mnz murska sobota (5.)") return 1000;
  return 500;
 }
-function isRound3Status(s){
- s=(s||"").trim().toLocaleLowerCase("sl").replace(/\s+/g," ");
- return !s || s==="3. krog" || s==="3 krog" || s==="3.krog";
+function isActiveStatus(s){
+ const v=(s||"").trim().toLocaleLowerCase("sl").replace(/\s+/g," ");
+ return v==="1/16 finala" || v==="1/16 finale" || v==="1/16";
+}
+function round32Matches(){
+ return matches.filter(x=>isRoundOf32(x.krog));
+}
+function renderTournamentSection(){
+ const box=document.querySelector("#round3Content");
+ const active=tournamentTeams.filter(x=>isActiveStatus(x.status));
+ document.querySelector("#round3Total").textContent=active.length+" "+klubLabel(active.length);
+
+ if(stageView==="pairs"){
+   const pairs=round32Matches();
+   box.className="";
+   if(!pairs.length){
+     box.innerHTML='<div class="round3-error">Pari 1/16 finala trenutno še niso na voljo v podatkih.</div>';
+     return;
+   }
+   box.innerHTML=`<div class="knockout-grid">${pairs.map(x=>`
+     <div class="knockout-pair">
+       <div class="pair-team"><button class="team-button" data-club="${esc(x.domacin)}">${esc(x.domacin)}</button>${leagueFor(x.domacin)?`<span class="league-pill" title="${esc(leagueFor(x.domacin))}">${esc(leagueFor(x.domacin))}</span>`:""}</div>
+       <div class="pair-team"><button class="team-button" data-club="${esc(x.gost)}">${esc(x.gost)}</button>${leagueFor(x.gost)?`<span class="league-pill" title="${esc(leagueFor(x.gost))}">${esc(leagueFor(x.gost))}</span>`:""}</div>
+     </div>`).join("")}</div>`;
+ }else{
+   const groups=new Map();
+   active.forEach(x=>{if(!groups.has(x.liga))groups.set(x.liga,[]);groups.get(x.liga).push(x.ekipa)});
+   const ordered=[...groups.entries()].sort((a,b)=>leagueOrder(a[0])-leagueOrder(b[0])||a[0].localeCompare(b[0],"sl"));
+   box.className="leagues";
+   box.innerHTML=ordered.map(([league,names])=>{
+      names.sort((a,b)=>a.localeCompare(b,"sl"));
+      return `<div class="league">
+        <div class="league-title"><strong>${esc(league)}</strong><span>${names.length} ${klubLabel(names.length)}</span></div>
+        <div class="team-grid">${names.map(n=>`<button class="team-item team-button" data-club="${esc(n)}">${esc(n)}</button>`).join("")}</div>
+      </div>`;
+   }).join("");
+ }
 }
 async function loadTeams(){
  const box=document.querySelector("#round3Content");
@@ -388,30 +479,58 @@ async function loadTeams(){
    const idx=(...names)=>{for(const n of names){const i=headers.indexOf(n);if(i>=0)return i}return -1};
    const I={ekipa:idx("ekipa"),liga:idx("liga"),status:idx("status")};
    if(I.ekipa<0||I.liga<0) throw new Error("Manjkajo stolpci Ekipa/Liga");
-   const teams=grid.slice(1).map(r=>({
+   tournamentTeams=grid.slice(1).map(r=>({
       ekipa:(r[I.ekipa]||"").trim(),
       liga:(r[I.liga]||"").trim()||"Drugo",
       status:I.status>=0?(r[I.status]||"").trim():""
-   })).filter(x=>x.ekipa&&isRound3Status(x.status));
-   const groups=new Map();
-   teams.forEach(x=>{if(!groups.has(x.liga))groups.set(x.liga,[]);groups.get(x.liga).push(x.ekipa)});
-   const ordered=[...groups.entries()].sort((a,b)=>leagueOrder(a[0])-leagueOrder(b[0])||a[0].localeCompare(b[0],"sl"));
-   document.querySelector("#round3Total").textContent=teams.length+" "+klubLabel(teams.length);
-   box.className="leagues";
-   box.innerHTML=ordered.map(([league,names])=>{
-      names.sort((a,b)=>a.localeCompare(b,"sl"));
-      return `<div class="league">
-        <div class="league-title"><strong>${esc(league)}</strong><span>${names.length} ${klubLabel(names.length)}</span></div>
-        <div class="team-grid">${names.map(n=>`<div class="team-item">${esc(n)}</div>`).join("")}</div>
-      </div>`;
-   }).join("");
+   })).filter(x=>x.ekipa);
+   teamLeague=new Map(tournamentTeams.map(x=>[x.ekipa,x.liga]));
+   renderTournamentSection();
+   render(); // ponovno izriši tekme, da se pokažejo lige pri 1/16 finala in naprej
  }catch(err){
    console.error(err);
    box.className="round3-error";
-   box.textContent="Seznama ekip trenutno ni mogoče naložiti.";
+   box.textContent="Seznama klubov trenutno ni mogoče naložiti.";
  }
 }
+document.querySelectorAll(".stage-tab").forEach(b=>b.addEventListener("click",()=>{
+ stageView=b.dataset.stageView;
+ document.querySelectorAll(".stage-tab").forEach(x=>x.classList.toggle("active",x===b));
+ renderTournamentSection();
+}));
 loadTeams();
+
+function openClubRoute(club){
+ const modal=document.querySelector("#clubModal");
+ const route=document.querySelector("#clubRoute");
+ document.querySelector("#clubTitle").textContent=club;
+ document.querySelector("#clubLeague").textContent=leagueFor(club) || "Dosedanja pot v Pokalu Pivovarna Union 2026/27";
+ const played=matches.filter(x=>x.rezultat&&(x.domacin===club||x.gost===club))
+   .sort((a,b)=>(a.datum+a.ura).localeCompare(b.datum+b.ura));
+ if(!played.length){
+   route.innerHTML='<div class="route-empty">Za ta klub še ni vpisane odigrane tekme z rezultatom.</div>';
+ }else{
+   route.innerHTML=`<div class="route-list">${played.map(x=>{
+     const ri=resultInfo(x.rezultat);
+     return `<div class="route-match">
+       <div class="route-round">${esc(x.krog||"Pokal")}</div>
+       <div class="route-fixture">${esc(x.domacin)} – ${esc(x.gost)} &nbsp; <strong>${esc(ri.display)}</strong></div>
+       <div class="route-meta">${prettyDate(x.datum)}${x.mnz?` · ${esc(x.mnz)}`:""}</div>
+     </div>`;
+   }).join("")}</div>`;
+ }
+ modal.classList.add("open"); modal.setAttribute("aria-hidden","false");
+}
+document.addEventListener("click",e=>{
+ const b=e.target.closest("[data-club]");
+ if(b){ e.preventDefault(); openClubRoute(b.dataset.club); }
+});
+document.querySelector("#closeClubModal").addEventListener("click",()=>{
+ const m=document.querySelector("#clubModal");m.classList.remove("open");m.setAttribute("aria-hidden","true");
+});
+document.querySelector("#clubModal").addEventListener("click",e=>{
+ if(e.target.id==="clubModal"){e.currentTarget.classList.remove("open");e.currentTarget.setAttribute("aria-hidden","true")}
+});
 
 
 const modal=document.querySelector("#reportModal"), closeModal=document.querySelector("#closeModal"), reportForm=document.querySelector("#reportForm"), reportMatch=document.querySelector("#reportMatch");
