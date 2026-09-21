@@ -168,6 +168,40 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 .date-note{display:inline-flex!important;align-items:center;margin-left:3px;padding:3px 7px;border-radius:999px;background:#fff4e5;border:1px solid #fedf89;color:#93370d!important;font-size:9px!important;font-weight:800!important;letter-spacing:.01em!important;text-transform:none!important}
 @media(max-width:520px){.day-title{flex-wrap:wrap}.date-note{margin-left:0}}
 
+
+/* V7.0 — interaktivna Pot do finala */
+.bracket-hero{margin:18px 0 14px;background:linear-gradient(135deg,#fff 0%,#fff8f1 100%);border:1px solid #f0d8c7;border-radius:18px;padding:18px;display:grid;grid-template-columns:minmax(220px,.7fr) minmax(420px,1.3fr);gap:18px;align-items:center}
+.bracket-hero-copy .eyebrow{font-size:9px;font-weight:900;letter-spacing:.09em;color:#b42318;margin-bottom:5px}
+.bracket-hero-copy h2{margin:0 0 6px;font-size:23px}
+.bracket-hero-copy p{margin:0;color:#667085;font-size:12px;line-height:1.45}
+.bracket-preview{position:relative;border:1px solid #e4e7ec;border-radius:13px;background:#fff;padding:10px;cursor:pointer;text-align:left;overflow:hidden;min-height:150px;box-shadow:0 2px 10px rgba(16,24,40,.04)}
+.bracket-preview:hover{border-color:#f04438;box-shadow:0 4px 16px rgba(16,24,40,.08)}
+.bracket-open-label{position:absolute;right:8px;bottom:8px;background:#101828;color:#fff;border-radius:999px;padding:5px 8px;font-size:9px;font-weight:850}
+.bracket-mini{display:grid;grid-template-columns:repeat(5,minmax(72px,1fr));gap:7px;align-items:center;transform-origin:left top}
+.bracket-mini-col{display:grid;gap:4px}
+.bracket-mini-match{border:1px solid #eaecf0;border-radius:6px;padding:4px;background:#f8fafc;font-size:7px;line-height:1.15;color:#344054;overflow:hidden}
+.bracket-mini-match b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bracket-mini-round{font-size:7px;font-weight:900;color:#b42318;text-align:center;margin-bottom:3px}
+.bracket-backdrop{z-index:1200}
+.bracket-modal{width:min(96vw,1500px);max-height:94vh;background:#fff;border-radius:18px;display:flex;flex-direction:column;box-shadow:0 24px 80px rgba(16,24,40,.28)}
+.bracket-modal-head{display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid #eaecf0}
+.bracket-modal-head h3{margin:0;font-size:20px}
+.bracket-scroll{overflow:auto;padding:18px;background:#f8fafc}
+.bracket-full{display:grid;grid-template-columns:repeat(5,220px);gap:32px;min-width:1220px;align-items:stretch}
+.bracket-col{display:flex;flex-direction:column;justify-content:space-around;gap:12px}
+.bracket-round-title{text-align:center;font-size:11px;font-weight:900;color:#b42318;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.bracket-card{border:1px solid #d0d5dd;border-radius:10px;background:#fff;padding:8px;cursor:pointer;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+.bracket-card:hover{border-color:#f04438;transform:translateY(-1px)}
+.bracket-team{display:flex;justify-content:space-between;gap:6px;font-size:11px;font-weight:800;line-height:1.25}
+.bracket-team+.bracket-team{border-top:1px solid #eaecf0;margin-top:5px;padding-top:5px}
+.bracket-team .seed{color:#98a2b3;font-weight:700;font-size:9px}
+.bracket-placeholder{color:#98a2b3;font-weight:650}
+.bracket-match-info{display:grid;gap:10px}
+.bracket-match-info .fixture{font-size:17px;font-weight:900;color:#101828}
+.bracket-match-info .when{padding:10px;border-radius:10px;background:#f8fafc;border:1px solid #eaecf0;font-size:13px}
+.bracket-match-info .hint{font-size:11px;color:#667085}
+@media(max-width:820px){.bracket-hero{grid-template-columns:1fr}.bracket-preview{min-height:135px}.bracket-full{grid-template-columns:repeat(5,190px);min-width:1060px;gap:22px}}
+
 </style>
 </head>
 <body>
@@ -180,6 +214,7 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 <details class="changes">
 <summary>Zadnje spremembe <span>▾</span></summary>
 <div class="changes-panel">
+  <div class="change-item"><strong>21. 9. 2026</strong><span>Dodan interaktivni pregled »Pot do finala« z avtomatskim napredovanjem zmagovalcev.</span></div>
   <div class="change-item"><strong>21. 9. 2026</strong><span>Dodan samostojen zavihek »Klubi v igri« in prikaz dosedanje poti kluba.</span></div>
   <div class="change-item"><strong>21. 9. 2026</strong><span>3. krog preimenovan v 1/16 finala; dodani pari, lige klubov in prikaz dosedanje poti posameznega kluba.</span></div>
   <div class="change-item"><strong>16. 9. 2026</strong><span>Urejen vrstni red lig v pregledu 3. kroga.</span></div>
@@ -190,6 +225,18 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 </div>
 </details>
 
+
+<section class="bracket-hero">
+  <div class="bracket-hero-copy">
+    <div class="eyebrow">POKAL PIVOVARNA UNION 2026/27</div>
+    <h2>🏆 Pot do finala</h2>
+    <p>Turnirska shema je določena. Klikni shemo za večji prikaz, nato klikni posamezen par za podrobnosti tekme.</p>
+  </div>
+  <button id="openBracket" class="bracket-preview" type="button" aria-label="Odpri Pot do finala">
+    <div id="bracketMini" class="bracket-mini-loading">Nalagam turnirsko shemo …</div>
+    <span class="bracket-open-label">Odpri shemo ↗</span>
+  </button>
+</section>
 
 <div class="tabs" role="navigation" aria-label="Prikaz tekem">
 <button class="tab active" data-view="next">Naslednje tekme</button>
@@ -227,6 +274,22 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 <p>Stran je nastala z namenom, da na enem mestu olajša pregled javno objavljenih informacij o tekmovanju. Ni povezana z Nogometno zvezo Slovenije, Pivovarno Union ali posameznimi MNZ. Imena tekmovanj, klubov, organizacij in blagovne znamke ostajajo last njihovih imetnikov. Prostovoljni prispevki so namenjeni podpori vzdrževanja in nadaljnjega razvoja projekta. Če imetnik pravic meni, da je kateri podatek ali vsebina uporabljena neustrezno, lahko zahteva popravek ali odstranitev.</p>
 </section>
 
+
+<div id="bracketModal" class="modal-backdrop bracket-backdrop" aria-hidden="true">
+  <div class="bracket-modal" role="dialog" aria-modal="true" aria-labelledby="bracketTitle">
+    <div class="bracket-modal-head">
+      <div><h3 id="bracketTitle">🏆 Pot do finala</h3><div class="modal-sub">Klikni par za termin in podrobnosti.</div></div>
+      <button class="close" id="closeBracketModal" aria-label="Zapri">×</button>
+    </div>
+    <div class="bracket-scroll"><div id="bracketFull"></div></div>
+  </div>
+</div>
+<div id="bracketMatchModal" class="modal-backdrop" aria-hidden="true">
+  <div class="modal bracket-match-modal" role="dialog" aria-modal="true">
+    <div class="modal-head"><div><h3 id="bracketMatchTitle">Tekma</h3><div id="bracketMatchRound" class="modal-sub"></div></div><button class="close" id="closeBracketMatch" aria-label="Zapri">×</button></div>
+    <div id="bracketMatchBody"></div>
+  </div>
+</div>
 
 <div id="clubModal" class="modal-backdrop" aria-hidden="true">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="clubTitle">
@@ -268,6 +331,8 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 let matches = [];
 let tournamentTeams = [];
 let teamLeague = new Map();
+let bracketRows = [];
+let bracketById = new Map();
 let stageView = "pairs";
 const DATA_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSUgn6ELDWyUJDdxwS5qPqa1gsvzmYohPsPEVR_YI7CtbC5RpdRNO6VzGs2dreY4-B2Q4qDGVjOrqgq/pub?gid=0&single=true&output=csv";
 const monthNames=["januar","februar","marec","april","maj","junij","julij","avgust","september","oktober","november","december"];
@@ -422,7 +487,7 @@ async function loadData(){
    opomba:I.opomba>=0?(r[I.opomba]||"").trim():"",
    spremembe:I.spremembe>=0?(r[I.spremembe]||"").trim():""
   })).filter(x=>x.datum&&x.domacin&&x.gost).sort((a,b)=>(a.datum+a.ura).localeCompare(b.datum+b.ura));
-  refillFilters(); render(); if(tournamentTeams.length) renderTournamentSection();
+  refillFilters(); render(); if(tournamentTeams.length) renderTournamentSection(); if(bracketRows.length) renderBrackets();
   document.querySelector("#updated").textContent=`Posodobljeno ${new Date().toLocaleString("sl-SI",{dateStyle:"short",timeStyle:"short"})}`;
  }catch(err){
   console.error(err);
@@ -509,6 +574,136 @@ async function loadTeams(){
  }
 }
 loadTeams();
+
+
+const SHEMA_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSUgn6ELDWyUJDdxwS5qPqa1gsvzmYohPsPEVR_YI7CtbC5RpdRNO6VzGs2dreY4-B2Q4qDGVjOrqgq/pub?gid=2092966888&single=true&output=csv";
+
+function canonTeam(s){ return (s||"").trim().toLocaleLowerCase("sl").replace(/\s+/g," "); }
+function matchWinner(x){
+ if(!x || !x.rezultat) return "";
+ const raw=(x.rezultat||"").trim();
+ const dg=raw.match(/\s([DG])$/i);
+ if(dg) return dg[1].toUpperCase()==="D"?x.domacin:x.gost;
+ const pens=raw.match(/\((\d+)\s*:\s*(\d+)[^)]*(?:11\s*m|pen)/i);
+ if(pens && +pens[1]!==+pens[2]) return +pens[1]>+pens[2]?x.domacin:x.gost;
+ const score=raw.match(/^(\d+)\s*:\s*(\d+)/);
+ if(score && +score[1]!==+score[2]) return +score[1]>+score[2]?x.domacin:x.gost;
+ return "";
+}
+function findListMatch(a,b,round){
+ if(!a||!b) return null;
+ const A=canonTeam(a), B=canonTeam(b), R=normRound(round);
+ return matches.find(x=>{
+   const h=canonTeam(x.domacin), g=canonTeam(x.gost);
+   const same=(h===A&&g===B)||(h===B&&g===A);
+   return same && (!R || normRound(x.krog)===R);
+ }) || matches.find(x=>{
+   const h=canonTeam(x.domacin), g=canonTeam(x.gost);
+   return (h===A&&g===B)||(h===B&&g===A);
+ }) || null;
+}
+function resolveBracketSlot(row,which,seen=new Set()){
+ const direct=which===1?row.team1:row.team2;
+ if(direct) return direct;
+ const source=which===1?row.source1:row.source2;
+ if(!source || seen.has(source)) return "";
+ seen.add(source);
+ const prev=bracketById.get(source);
+ if(!prev) return "";
+ const a=resolveBracketSlot(prev,1,new Set(seen)), b=resolveBracketSlot(prev,2,new Set(seen));
+ const m=findListMatch(a,b,prev.round);
+ return matchWinner(m);
+}
+function bracketRoundOrder(r){
+ const s=normRound(r);
+ if(isRoundOf32(s)) return 1;
+ if(s.includes("1/8")||s.includes("osmina")) return 2;
+ if(s.includes("1/4")||s.includes("četrt")||s.includes("cetrt")) return 3;
+ if(s.includes("1/2")||s.includes("polfinal")) return 4;
+ if(s==="finale"||s==="final") return 5;
+ return 99;
+}
+function bracketRoundLabel(r){
+ const n=bracketRoundOrder(r);
+ return ({1:"1/16 finala",2:"1/8 finala",3:"Četrtfinale",4:"Polfinale",5:"Finale"})[n]||r;
+}
+function renderBracketCard(row,mini=false){
+ const a=resolveBracketSlot(row,1), b=resolveBracketSlot(row,2);
+ const p1=a||((row.source1)?`Zmagovalec ${row.source1}`:"—");
+ const p2=b||((row.source2)?`Zmagovalec ${row.source2}`:"—");
+ if(mini) return `<div class="bracket-mini-match"><b>${esc(p1)}</b><b>${esc(p2)}</b></div>`;
+ return `<button type="button" class="bracket-card" data-bracket-id="${esc(row.id)}">
+   <div class="bracket-team ${a?"":"bracket-placeholder"}"><span>${esc(p1)}</span></div>
+   <div class="bracket-team ${b?"":"bracket-placeholder"}"><span>${esc(p2)}</span></div>
+ </button>`;
+}
+function renderBrackets(){
+ if(!bracketRows.length) return;
+ const groups=new Map();
+ bracketRows.forEach(r=>{const k=bracketRoundOrder(r.round);if(!groups.has(k))groups.set(k,[]);groups.get(k).push(r)});
+ const rounds=[...groups.keys()].sort((a,b)=>a-b);
+ const mini=document.querySelector("#bracketMini");
+ if(mini){
+   mini.className="bracket-mini";
+   mini.innerHTML=rounds.map(k=>`<div class="bracket-mini-col"><div class="bracket-mini-round">${bracketRoundLabel(groups.get(k)[0].round)}</div>${groups.get(k).map(r=>renderBracketCard(r,true)).join("")}</div>`).join("");
+ }
+ const full=document.querySelector("#bracketFull");
+ if(full){
+   full.className="bracket-full";
+   full.innerHTML=rounds.map(k=>`<div class="bracket-col"><div class="bracket-round-title">${bracketRoundLabel(groups.get(k)[0].round)}</div>${groups.get(k).map(r=>renderBracketCard(r,false)).join("")}</div>`).join("");
+ }
+}
+async function loadBracket(){
+ try{
+   const res=await fetch(SHEMA_URL+"&t="+Date.now(),{cache:"no-store"});
+   if(!res.ok) throw new Error("HTTP "+res.status);
+   const grid=parseCSV(await res.text());
+   const h=grid[0].map(x=>x.trim().toLocaleLowerCase("sl"));
+   const col=(...names)=>{for(const n of names){const i=h.indexOf(n);if(i>=0)return i}return -1};
+   const I={id:col("id"),round:col("krog"),team1:col("ekipa 1","ekipa1"),team2:col("ekipa 2","ekipa2"),source1:col("vir 1","vir1"),source2:col("vir 2","vir2")};
+   if(I.id<0||I.round<0) throw new Error("Shema potrebuje stolpca ID in Krog");
+   bracketRows=grid.slice(1).map(r=>({
+     id:(r[I.id]||"").trim(), round:(r[I.round]||"").trim(),
+     team1:I.team1>=0?(r[I.team1]||"").trim():"", team2:I.team2>=0?(r[I.team2]||"").trim():"",
+     source1:I.source1>=0?(r[I.source1]||"").trim():"", source2:I.source2>=0?(r[I.source2]||"").trim():""
+   })).filter(r=>r.id&&r.round);
+   bracketById=new Map(bracketRows.map(r=>[r.id,r]));
+   renderBrackets();
+ }catch(err){
+   console.error(err);
+   const mini=document.querySelector("#bracketMini");
+   if(mini) mini.textContent="Turnirske sheme trenutno ni mogoče naložiti.";
+ }
+}
+function openBracketMatch(id){
+ const row=bracketById.get(id); if(!row)return;
+ const a=resolveBracketSlot(row,1), b=resolveBracketSlot(row,2);
+ const m=findListMatch(a,b,row.round);
+ document.querySelector("#bracketMatchTitle").textContent=a&&b?`${a} – ${b}`:`${bracketRoundLabel(row.round)} · ${row.id}`;
+ document.querySelector("#bracketMatchRound").textContent=bracketRoundLabel(row.round);
+ let body="";
+ if(m){
+   const hasExact=(m.ura||"").trim() && (m.ura||"").trim().toUpperCase()!=="NEZNANA URA";
+   body=`<div class="bracket-match-info">
+     <div class="fixture">${esc(m.domacin)} – ${esc(m.gost)}${m.rezultat?` &nbsp; <strong>${esc(resultInfo(m.rezultat).display)}</strong>`:""}</div>
+     <div class="when"><strong>${prettyDate(m.datum)}</strong>${hasExact?` · ${esc(m.ura)}`:" · ura še ni določena"}${m.datum==="2026-10-24"?`<div class="hint">Datum je okviren glede na koledar NZS.</div>`:""}</div>
+   </div>`;
+ }else if(a&&b){
+   body=`<div class="bracket-match-info"><div class="fixture">${esc(a)} – ${esc(b)}</div><div class="when">Termin še ni vpisan v seznam tekem.</div></div>`;
+ }else{
+   const p1=a||`zmagovalec ${row.source1||"predhodnega para"}`, p2=b||`zmagovalec ${row.source2||"predhodnega para"}`;
+   body=`<div class="bracket-match-info"><div class="fixture">${esc(p1)} – ${esc(p2)}</div><div class="when">Udeleženca oziroma termin še nista določena.</div></div>`;
+ }
+ document.querySelector("#bracketMatchBody").innerHTML=body;
+ const modal=document.querySelector("#bracketMatchModal");modal.classList.add("open");modal.setAttribute("aria-hidden","false");
+}
+document.querySelector("#openBracket").addEventListener("click",()=>{renderBrackets();const m=document.querySelector("#bracketModal");m.classList.add("open");m.setAttribute("aria-hidden","false")});
+document.querySelector("#closeBracketModal").addEventListener("click",()=>{const m=document.querySelector("#bracketModal");m.classList.remove("open");m.setAttribute("aria-hidden","true")});
+document.querySelector("#closeBracketMatch").addEventListener("click",()=>{const m=document.querySelector("#bracketMatchModal");m.classList.remove("open");m.setAttribute("aria-hidden","true")});
+document.querySelector("#bracketModal").addEventListener("click",e=>{if(e.target.id==="bracketModal"){e.currentTarget.classList.remove("open");e.currentTarget.setAttribute("aria-hidden","true")}});
+document.querySelector("#bracketMatchModal").addEventListener("click",e=>{if(e.target.id==="bracketMatchModal"){e.currentTarget.classList.remove("open");e.currentTarget.setAttribute("aria-hidden","true")}});
+document.addEventListener("click",e=>{const b=e.target.closest("[data-bracket-id]");if(b){e.preventDefault();openBracketMatch(b.dataset.bracketId)}});
+loadBracket();
 
 function openClubRoute(club){
  const modal=document.querySelector("#clubModal");
