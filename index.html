@@ -155,6 +155,15 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 .route-empty{color:#667085;font-size:13px;padding:8px 0}
 @media(max-width:680px){.knockout-grid{grid-template-columns:1fr}.league-pill{max-width:46%}}
 
+
+/* V6.1 — Klubi v igri kot glavna podstran */
+.teams-page{margin:16px 0 22px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 22px}
+.teams-page[hidden]{display:none!important}
+.teams-page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px}
+.teams-page-head h2{margin:0 0 5px;font-size:22px}
+.teams-page-head p{margin:0;color:var(--muted);font-size:13px}
+.team-item.team-button{display:block;width:100%;text-align:left}
+@media(max-width:600px){.teams-page{padding:16px}.teams-page-head{flex-direction:column}}
 </style>
 </head>
 <body>
@@ -167,6 +176,7 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 <details class="changes">
 <summary>Zadnje spremembe <span>▾</span></summary>
 <div class="changes-panel">
+  <div class="change-item"><strong>21. 9. 2026</strong><span>Dodan samostojen zavihek »Klubi v igri« in prikaz dosedanje poti kluba.</span></div>
   <div class="change-item"><strong>21. 9. 2026</strong><span>3. krog preimenovan v 1/16 finala; dodani pari, lige klubov in prikaz dosedanje poti posameznega kluba.</span></div>
   <div class="change-item"><strong>16. 9. 2026</strong><span>Urejen vrstni red lig v pregledu 3. kroga.</span></div>
   <div class="change-item"><strong>16. 9. 2026</strong><span>Dodan pregled udeležencev 3. kroga po ligah.</span></div>
@@ -177,26 +187,23 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 </details>
 
 
-<section class="round3" id="round3">
-  <div class="round3-head">
-    <div>
-      <div class="round3-titleline"><h2>1/16 finala</h2><span class="round3-date">PREDVIDEN TERMIN · sobota, 24. 10. 2026</span></div>
-      <div class="round3-sub">Žreb je opravljen · 32 klubov se bori za napredovanje</div>
-    </div>
-    <div class="round3-total" id="round3Total">32 klubov</div>
-  </div>
-  <div class="stage-tabs" aria-label="Pregled 1/16 finala">
-    <button class="stage-tab active" data-stage-view="pairs">Pari 1/16 finala</button>
-    <button class="stage-tab" data-stage-view="teams">Klubi v igri</button>
-  </div>
-  <div id="round3Content" class="round3-loading">Nalagam pare …</div>
-</section>
-
 <div class="tabs" role="navigation" aria-label="Prikaz tekem">
 <button class="tab active" data-view="next">Naslednje tekme</button>
 <button class="tab" data-view="all">Vse tekme</button>
 <button class="tab" data-view="results">Rezultati</button>
+<button class="tab" data-view="teams">Klubi v igri</button>
 </div>
+<section id="teamsPage" class="teams-page" hidden>
+  <div class="teams-page-head">
+    <div>
+      <h2>Klubi v igri</h2>
+      <p>Klubi, ki so še v igri za Pokal Pivovarna Union 2026/27. Klikni ime kluba za njegovo dosedanjo pot.</p>
+    </div>
+    <div class="round3-total" id="activeTeamsTotal">–</div>
+  </div>
+  <div id="activeTeamsContent" class="round3-loading">Nalagam klube …</div>
+</section>
+
 <div id="todaybox" class="todaybox"></div>
 <div class="toolbar">
 <input id="q" type="search" placeholder="Išči klub …">
@@ -314,6 +321,18 @@ function clickableTeam(name, winnerClass="", showLeague=false){
 }
 
 function render(){
+ const teamsMode=currentView==="teams";
+ const teamsPage=document.querySelector("#teamsPage");
+ if(teamsPage) teamsPage.hidden=!teamsMode;
+ const toolbar=document.querySelector(".toolbar");
+ if(toolbar) toolbar.style.display=teamsMode?"none":"";
+ summary.style.display=teamsMode?"none":"";
+ document.querySelector("#updated").style.display=teamsMode?"none":"";
+ document.querySelector(".missing-wrap").style.display=teamsMode?"none":"";
+ list.style.display=teamsMode?"none":"";
+ todaybox.style.display=teamsMode?"none":"";
+ if(teamsMode){ renderTournamentSection(); return; }
+ todaybox.style.display="";
  const needle=q.value.trim().toLocaleLowerCase("sl");
  let rows=matches.filter(x=>(!mnz.value||x.mnz===mnz.value)&&(!round.value||x.krog===round.value)&&(!needle||`${x.domacin} ${x.gost}`.toLocaleLowerCase("sl").includes(needle)));
  if(currentView==="next") rows=rows.filter(x=>x.datum>=siteToday && !x.rezultat && !["odpovedana","odpovedano"].includes((x.status||"").toLowerCase())).slice(0,15);
@@ -438,38 +457,30 @@ function round32Matches(){
  return matches.filter(x=>isRoundOf32(x.krog));
 }
 function renderTournamentSection(){
- const box=document.querySelector("#round3Content");
+ const box=document.querySelector("#activeTeamsContent");
+ if(!box) return;
  const active=tournamentTeams.filter(x=>isActiveStatus(x.status));
- document.querySelector("#round3Total").textContent=active.length+" "+klubLabel(active.length);
-
- if(stageView==="pairs"){
-   const pairs=round32Matches();
-   box.className="";
-   if(!pairs.length){
-     box.innerHTML='<div class="round3-error">Pari 1/16 finala trenutno še niso na voljo v podatkih.</div>';
-     return;
-   }
-   box.innerHTML=`<div class="knockout-grid">${pairs.map(x=>`
-     <div class="knockout-pair">
-       <div class="pair-team"><button class="team-button" data-club="${esc(x.domacin)}">${esc(x.domacin)}</button>${leagueFor(x.domacin)?`<span class="league-pill" title="${esc(leagueFor(x.domacin))}">${esc(leagueFor(x.domacin))}</span>`:""}</div>
-       <div class="pair-team"><button class="team-button" data-club="${esc(x.gost)}">${esc(x.gost)}</button>${leagueFor(x.gost)?`<span class="league-pill" title="${esc(leagueFor(x.gost))}">${esc(leagueFor(x.gost))}</span>`:""}</div>
-     </div>`).join("")}</div>`;
- }else{
-   const groups=new Map();
-   active.forEach(x=>{if(!groups.has(x.liga))groups.set(x.liga,[]);groups.get(x.liga).push(x.ekipa)});
-   const ordered=[...groups.entries()].sort((a,b)=>leagueOrder(a[0])-leagueOrder(b[0])||a[0].localeCompare(b[0],"sl"));
-   box.className="leagues";
-   box.innerHTML=ordered.map(([league,names])=>{
-      names.sort((a,b)=>a.localeCompare(b,"sl"));
-      return `<div class="league">
-        <div class="league-title"><strong>${esc(league)}</strong><span>${names.length} ${klubLabel(names.length)}</span></div>
-        <div class="team-grid">${names.map(n=>`<button class="team-item team-button" data-club="${esc(n)}">${esc(n)}</button>`).join("")}</div>
-      </div>`;
-   }).join("");
+ const total=document.querySelector("#activeTeamsTotal");
+ if(total) total.textContent=active.length+" "+klubLabel(active.length);
+ if(!active.length){
+   box.className="round3-error";
+   box.textContent="Trenutno ni klubov z oznako »1/16 finala« v zavihku Ekipe.";
+   return;
  }
+ const groups=new Map();
+ active.forEach(x=>{if(!groups.has(x.liga))groups.set(x.liga,[]);groups.get(x.liga).push(x.ekipa)});
+ const ordered=[...groups.entries()].sort((a,b)=>leagueOrder(a[0])-leagueOrder(b[0])||a[0].localeCompare(b[0],"sl"));
+ box.className="leagues";
+ box.innerHTML=ordered.map(([league,names])=>{
+   names.sort((a,b)=>a.localeCompare(b,"sl"));
+   return `<div class="league">
+     <div class="league-title"><strong>${esc(league)}</strong><span>${names.length} ${klubLabel(names.length)}</span></div>
+     <div class="team-grid">${names.map(n=>`<button class="team-item team-button" data-club="${esc(n)}">${esc(n)}</button>`).join("")}</div>
+   </div>`;
+ }).join("");
 }
 async function loadTeams(){
- const box=document.querySelector("#round3Content");
+ const box=document.querySelector("#activeTeamsContent");
  try{
    const res=await fetch(TEAMS_URL+"&t="+Date.now(),{cache:"no-store"});
    if(!res.ok) throw new Error("HTTP "+res.status);
@@ -493,11 +504,6 @@ async function loadTeams(){
    box.textContent="Seznama klubov trenutno ni mogoče naložiti.";
  }
 }
-document.querySelectorAll(".stage-tab").forEach(b=>b.addEventListener("click",()=>{
- stageView=b.dataset.stageView;
- document.querySelectorAll(".stage-tab").forEach(x=>x.classList.toggle("active",x===b));
- renderTournamentSection();
-}));
 loadTeams();
 
 function openClubRoute(club){
