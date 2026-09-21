@@ -183,13 +183,18 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 .bracket-mini-match b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .bracket-mini-round{font-size:7px;font-weight:900;color:#b42318;text-align:center;margin-bottom:3px}
 .bracket-backdrop{z-index:1200}
+#bracketMatchModal{z-index:1400!important}
+#bracketMatchModal .modal{position:relative;z-index:1401}
 .bracket-modal{width:min(96vw,1500px);max-height:94vh;background:#fff;border-radius:18px;display:flex;flex-direction:column;box-shadow:0 24px 80px rgba(16,24,40,.28)}
 .bracket-modal-head{display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid #eaecf0}
 .bracket-modal-head h3{margin:0;font-size:20px}
 .bracket-scroll{overflow:auto;padding:18px;background:#f8fafc}
-.bracket-full{display:grid;grid-template-columns:repeat(5,220px);gap:32px;min-width:1220px;align-items:stretch}
-.bracket-col{display:flex;flex-direction:column;justify-content:space-around;gap:12px}
+.bracket-full{display:grid;grid-template-columns:repeat(7,210px);gap:24px;min-width:1614px;align-items:stretch}
+.bracket-col{display:flex;flex-direction:column;justify-content:space-around;gap:12px;min-height:680px}
+.bracket-col.bracket-final-col{justify-content:center}
 .bracket-round-title{text-align:center;font-size:11px;font-weight:900;color:#b42318;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.bracket-final-col .bracket-round-title{font-size:13px;color:#101828}
+.bracket-side-label{text-align:center;font-size:9px;font-weight:850;color:#98a2b3;letter-spacing:.05em;text-transform:uppercase;margin-bottom:2px}
 .bracket-card{border:1px solid #d0d5dd;border-radius:10px;background:#fff;padding:8px;cursor:pointer;box-shadow:0 1px 3px rgba(16,24,40,.05)}
 .bracket-card:hover{border-color:#f04438;transform:translateY(-1px)}
 .bracket-team{display:flex;justify-content:space-between;gap:6px;font-size:11px;font-weight:800;line-height:1.25}
@@ -200,7 +205,7 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 .bracket-match-info .fixture{font-size:17px;font-weight:900;color:#101828}
 .bracket-match-info .when{padding:10px;border-radius:10px;background:#f8fafc;border:1px solid #eaecf0;font-size:13px}
 .bracket-match-info .hint{font-size:11px;color:#667085}
-@media(max-width:820px){.bracket-hero{grid-template-columns:1fr}.bracket-preview{min-height:135px}.bracket-full{grid-template-columns:repeat(5,190px);min-width:1060px;gap:22px}}
+@media(max-width:820px){.bracket-hero{grid-template-columns:1fr}.bracket-preview{min-height:135px}.bracket-full{grid-template-columns:repeat(7,185px);min-width:1439px;gap:18px}.bracket-col{min-height:620px}}
 
 </style>
 </head>
@@ -214,6 +219,7 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 <details class="changes">
 <summary>Zadnje spremembe <span>▾</span></summary>
 <div class="changes-panel">
+  <div class="change-item"><strong>21. 9. 2026</strong><span>Turnirska shema razdeljena na levo in desno polovico; finale je na sredini. Popravljen prikaz podrobnosti tekme nad shemo.</span></div>
   <div class="change-item"><strong>21. 9. 2026</strong><span>Dodan interaktivni pregled »Pot do finala« z avtomatskim napredovanjem zmagovalcev.</span></div>
   <div class="change-item"><strong>21. 9. 2026</strong><span>Dodan samostojen zavihek »Klubi v igri« in prikaz dosedanje poti kluba.</span></div>
   <div class="change-item"><strong>21. 9. 2026</strong><span>3. krog preimenovan v 1/16 finala; dodani pari, lige klubov in prikaz dosedanje poti posameznega kluba.</span></div>
@@ -642,16 +648,51 @@ function renderBrackets(){
  const groups=new Map();
  bracketRows.forEach(r=>{const k=bracketRoundOrder(r.round);if(!groups.has(k))groups.set(k,[]);groups.get(k).push(r)});
  const rounds=[...groups.keys()].sort((a,b)=>a-b);
+
+ // Small preview stays compact, but mirrors the tournament concept.
  const mini=document.querySelector("#bracketMini");
  if(mini){
    mini.className="bracket-mini";
    mini.innerHTML=rounds.map(k=>`<div class="bracket-mini-col"><div class="bracket-mini-round">${bracketRoundLabel(groups.get(k)[0].round)}</div>${groups.get(k).map(r=>renderBracketCard(r,true)).join("")}</div>`).join("");
  }
+
  const full=document.querySelector("#bracketFull");
- if(full){
-   full.className="bracket-full";
-   full.innerHTML=rounds.map(k=>`<div class="bracket-col"><div class="bracket-round-title">${bracketRoundLabel(groups.get(k)[0].round)}</div>${groups.get(k).map(r=>renderBracketCard(r,false)).join("")}</div>`).join("");
- }
+ if(!full) return;
+
+ const r32=(groups.get(1)||[]);
+ const r16=(groups.get(2)||[]);
+ const qf=(groups.get(3)||[]);
+ const sf=(groups.get(4)||[]);
+ const fin=(groups.get(5)||[]);
+
+ // The first eight 1/16-final matches form the left half; the other eight the right half.
+ // Following rounds are split by ancestry/order in the same way.
+ const left32=r32.slice(0,8), right32=r32.slice(8,16);
+ const left16=r16.slice(0,4), right16=r16.slice(4,8);
+ const leftQ=qf.slice(0,2), rightQ=qf.slice(2,4);
+ const leftS=sf.slice(0,1), rightS=sf.slice(1,2);
+
+ const col=(title,rows,extra="")=>`<div class="bracket-col ${extra}">
+   <div>
+     <div class="bracket-round-title">${title}</div>
+     ${rows.map(r=>renderBracketCard(r,false)).join("")}
+   </div>
+ </div>`;
+
+ // Visually: 1/16 → 1/8 → QF → FINAL ← QF ← 1/8 ← 1/16.
+ // Semifinal cards sit with the quarterfinal side and feed the central final.
+ const leftQuarter=[...leftQ,...leftS];
+ const rightQuarter=[...rightS,...rightQ];
+
+ full.className="bracket-full";
+ full.innerHTML=
+   col("1/16 finala",left32)+
+   col("1/8 finala",left16)+
+   col("Četrtfinale / polfinale",leftQuarter)+
+   col("FINALE",fin,"bracket-final-col")+
+   col("Polfinale / četrtfinale",rightQuarter)+
+   col("1/8 finala",right16)+
+   col("1/16 finala",right32);
 }
 async function loadBracket(){
  try{
