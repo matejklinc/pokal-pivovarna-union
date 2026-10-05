@@ -260,7 +260,7 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
       <div class="eyebrow">POKAL PIVOVARNA UNION 2026/27</div>
       <h2>🏆 Pot do finala</h2>
     </div>
-    <p>Pot do finala je določena. Klikni posamezen par za termin in podrobnosti tekme.</p>
+    <p>Termini tekem so povzeti po trenutno objavljenih podatkih NZS in se lahko še spremenijo.</p>
   </div>
   <div class="bracket-inline-scroll">
     <div id="bracketInline" class="bracket-inline-loading">Nalagam turnirsko shemo …</div>
@@ -433,7 +433,7 @@ function render(){
  const groups={}; rows.forEach(x=>(groups[x.datum]??=[]).push(x));
  list.innerHTML=Object.entries(groups).map(([date,arr])=>{
    const d=new Date(date+"T12:00:00");
-   return `<section class="day"><div class="day-title"><h2>${prettyDate(date)}</h2><span>${days[d.getDay()]}</span>${date==="2026-10-24"?`<span class="date-note">Okviren datum · glede na koledar NZS</span>`:""}</div>`+
+   return `<section class="day"><div class="day-title"><h2>${prettyDate(date)}</h2><span>${days[d.getDay()]}</span></div>`+
    arr.map(x=>{const ri=resultInfo(x.rezultat); return `<article class="card ${x.rezultat?"has-score":""} ${currentView==="all" && x.rezultat?"completed":""}">
      <div class="time">${x.ura?esc(x.ura):'<span class="tbd">NEZNANA URA</span>'}</div>
      <div><div class="teams">${clickableTeam(x.domacin,ri.winner==="home"?"winner":"",isKnockoutRound(x.krog))} <span class="dash">–</span> ${clickableTeam(x.gost,ri.winner==="away"?"winner":"",isKnockoutRound(x.krog))}</div><div class="meta"><button class="mnzlink" data-mnzfilter="${esc(x.mnz)}">${esc(x.mnz)}</button></div>${x.opomba?`<div class="note-line">${esc(x.opomba)}</div>`:""}${renderChanges(x)}<button class="report" data-match="${esc(x.domacin)} – ${esc(x.gost)}" data-date="${esc(x.datum)}" data-time="${esc(x.ura)}" data-mnz="${esc(x.mnz)}">✎ Sporoči podatek</button></div>
@@ -772,7 +772,7 @@ function openBracketMatch(id){
    const hasExact=(m.ura||"").trim() && (m.ura||"").trim().toUpperCase()!=="NEZNANA URA";
    body=`<div class="bracket-match-info">
      <div class="fixture">${esc(m.domacin)} – ${esc(m.gost)}${m.rezultat?` &nbsp; <strong>${esc(resultInfo(m.rezultat).display)}</strong>`:""}</div>
-     <div class="when"><strong>${prettyDate(m.datum)}</strong>${hasExact?` · ${esc(m.ura)}`:" · ura še ni določena"}${m.datum==="2026-10-24"?`<div class="hint">Datum je okviren glede na koledar NZS.</div>`:""}</div>
+     <div class="when"><strong>${prettyDate(m.datum)}</strong>${hasExact?` · ${esc(m.ura)}`:" · ura še ni določena"}</div>
    </div>`;
  }else if(a&&b){
    body=`<div class="bracket-match-info"><div class="fixture">${esc(a)} – ${esc(b)}</div><div class="when">Termin še ni vpisan v seznam tekem.</div></div>`;

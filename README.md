@@ -8,3 +8,8 @@ Glavna sprememba:
 - na tipičnem 15-palčnem prenosniku naj bi bila celotna zrcalna shema vidna brez horizontalnega scrolla;
 - povezovalne črte iz V7.3 ostanejo;
 - na res ozkih zaslonih ostane lokalni horizontalni scroll kot varovalo.
+
+
+## V7.5
+- Dodana splošna opomba: »Termini tekem so povzeti po trenutno objavljenih podatkih NZS in se lahko še spremenijo.«
+- Odstranjena posebna oznaka »Okviren datum · glede na koledar NZS« in enaka opomba v popupu.
