@@ -238,6 +238,7 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 <details class="changes">
 <summary>Zadnje spremembe <span>▾</span></summary>
 <div class="changes-panel">
+  <div class="change-item"><strong>25. 10. 2026</strong><span>Dodana podpora skupnim terminom, npr. »18.11./2.12.2026«; takšne tekme se zdaj pravilno prikažejo med naslednjimi tekmami.</span></div>
   <div class="change-item"><strong>25. 10. 2026</strong><span>Zavihek »Klubi v igri« zdaj prikazuje samo klube, ki imajo v zavihku Ekipe status »1/8 finala«.</span></div>
   <div class="change-item"><strong>21. 9. 2026</strong><span>Pot do finala zdaj preseže širino glavnega vsebinskega stolpca in uporablja skoraj celotno širino zaslona; ostala stran ostaja nespremenjena.</span></div>
   <div class="change-item"><strong>21. 9. 2026</strong><span>Shema je pomanjšana za 15-palčne zaslone, uporablja več širine strani in ima povezovalne črte med vsemi predvidenimi pari.</span></div>
@@ -434,10 +435,11 @@ function render(){
  const groups={}; rows.forEach(x=>(groups[x.datum]??=[]).push(x));
  list.innerHTML=Object.entries(groups).map(([date,arr])=>{
    const d=new Date(date+"T12:00:00");
-   return `<section class="day"><div class="day-title"><h2>${prettyDate(date)}</h2><span>${days[d.getDay()]}</span></div>`+
+    const sourceDate=displaySourceDate(arr[0]?.datumRaw);
+    return `<section class="day"><div class="day-title"><h2>${sourceDate||prettyDate(date)}</h2><span>${sourceDate?"možna termina":days[d.getDay()]}</span></div>`+
    arr.map(x=>{const ri=resultInfo(x.rezultat); return `<article class="card ${x.rezultat?"has-score":""} ${currentView==="all" && x.rezultat?"completed":""}">
      <div class="time">${x.ura?esc(x.ura):'<span class="tbd">NEZNANA URA</span>'}</div>
-     <div><div class="teams">${clickableTeam(x.domacin,ri.winner==="home"?"winner":"",isKnockoutRound(x.krog))} <span class="dash">–</span> ${clickableTeam(x.gost,ri.winner==="away"?"winner":"",isKnockoutRound(x.krog))}</div><div class="meta"><button class="mnzlink" data-mnzfilter="${esc(x.mnz)}">${esc(x.mnz)}</button></div>${x.opomba?`<div class="note-line">${esc(x.opomba)}</div>`:""}${renderChanges(x)}<button class="report" data-match="${esc(x.domacin)} – ${esc(x.gost)}" data-date="${esc(x.datum)}" data-time="${esc(x.ura)}" data-mnz="${esc(x.mnz)}">✎ Sporoči podatek</button></div>
+     <div><div class="teams">${clickableTeam(x.domacin,ri.winner==="home"?"winner":"",isKnockoutRound(x.krog))} <span class="dash">–</span> ${clickableTeam(x.gost,ri.winner==="away"?"winner":"",isKnockoutRound(x.krog))}</div><div class="meta"><button class="mnzlink" data-mnzfilter="${esc(x.mnz)}">${esc(x.mnz)}</button></div>${x.opomba?`<div class="note-line">${esc(x.opomba)}</div>`:""}${renderChanges(x)}<button class="report" data-match="${esc(x.domacin)} – ${esc(x.gost)}" data-date="${esc(x.datumRaw||x.datum)}" data-time="${esc(x.ura)}" data-mnz="${esc(x.mnz)}">✎ Sporoči podatek</button></div>
      ${x.rezultat?`<div class="scorebox"><span class="result">${esc(ri.display)}</span></div>`:""}
      <div class="badges"><span class="badge round">${esc(x.krog)}</span>${x.status && !["","napovedano","napovedana","končano","končana","odigrano","odigrana"].includes(x.status.toLowerCase())?`<span class="badge status-${esc(x.status.toLowerCase())}">${esc(x.status)}</span>`:""}</div>
    </article>`}).join("")+`</section>`;
@@ -471,10 +473,17 @@ function parseCSV(text){
 }
 function normDate(v){
  v=(v||"").trim(); if(!v)return "";
+ let multi=v.match(/^(\d{1,2})\.(\d{1,2})\.\s*\/\s*(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
+ if(multi)return `${multi[5]}-${multi[2].padStart(2,"0")}-${multi[1].padStart(2,"0")}`;
  let m=v.match(/^(\d{1,2})[.\/-]\s*(\d{1,2})[.\/-]\s*(\d{4})/);
  if(m)return `${m[3]}-${m[2].padStart(2,"0")}-${m[1].padStart(2,"0")}`;
  let d=new Date(v); if(!isNaN(d))return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
  return v;
+}
+function displaySourceDate(v){
+ v=(v||"").trim();
+ let m=v.match(/^(\d{1,2})\.(\d{1,2})\.\s*\/\s*(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
+ return m?`${Number(m[1])}. ${Number(m[2])}. / ${Number(m[3])}. ${Number(m[4])}. ${m[5]}`:"";
 }
 function normTime(v){
  v=(v||"").trim(); if(!v)return "";
@@ -501,7 +510,7 @@ async function loadData(){
   if(I.mnz<0||I.datum<0||I.domacin<0||I.gost<0)throw new Error("Manjkajo obvezni stolpci");
   matches=grid.slice(1).map(r=>({
    mnz:(r[I.mnz]||"").trim(), krog:I.krog>=0?(r[I.krog]||"").trim():"",
-   datum:normDate(r[I.datum]), ura:I.ura>=0?normTime(r[I.ura]):"",
+   datum:normDate(r[I.datum]), datumRaw:(r[I.datum]||"").trim(), ura:I.ura>=0?normTime(r[I.ura]):"",
    domacin:(r[I.domacin]||"").trim(), gost:(r[I.gost]||"").trim(),
    rezultat:I.rezultat>=0?(r[I.rezultat]||"").trim():"",
    status:I.status>=0?((r[I.status]||"").trim()||"Napovedano"):"Napovedano",
