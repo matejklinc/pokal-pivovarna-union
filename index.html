@@ -238,6 +238,7 @@ footer{color:#98a2b3;font-size:12px;text-align:center;padding:0 16px 30px}
 <details class="changes">
 <summary>Zadnje spremembe <span>▾</span></summary>
 <div class="changes-panel">
+  <div class="change-item"><strong>25. 10. 2026</strong><span>Zavihek »Klubi v igri« zdaj prikazuje samo klube, ki imajo v zavihku Ekipe status »1/8 finala«.</span></div>
   <div class="change-item"><strong>21. 9. 2026</strong><span>Pot do finala zdaj preseže širino glavnega vsebinskega stolpca in uporablja skoraj celotno širino zaslona; ostala stran ostaja nespremenjena.</span></div>
   <div class="change-item"><strong>21. 9. 2026</strong><span>Shema je pomanjšana za 15-palčne zaslone, uporablja več širine strani in ima povezovalne črte med vsemi predvidenimi pari.</span></div>
   <div class="change-item"><strong>21. 9. 2026</strong><span>Pot do finala je zdaj prikazana neposredno na strani kot zrcalna shema: 8 parov levo, 8 desno, finale na sredini. Odstranjena je dodatna povečava.</span></div>
@@ -540,7 +541,7 @@ function leagueOrder(name){
 }
 function isActiveStatus(s){
  const v=(s||"").trim().toLocaleLowerCase("sl").replace(/\s+/g," ");
- return v==="1/16 finala" || v==="1/16 finale" || v==="1/16";
+ return v==="1/8 finala";
 }
 function round32Matches(){
  return matches.filter(x=>isRoundOf32(x.krog));
@@ -553,7 +554,7 @@ function renderTournamentSection(){
  if(total) total.textContent=active.length+" "+klubLabel(active.length);
  if(!active.length){
    box.className="round3-error";
-   box.textContent="Trenutno ni klubov z oznako »1/16 finala« v zavihku Ekipe.";
+   box.textContent="Trenutno ni klubov z oznako »1/8 finala« v zavihku Ekipe.";
    return;
  }
  const groups=new Map();
